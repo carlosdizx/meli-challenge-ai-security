@@ -1,3 +1,5 @@
 jupyter
 kagglehub
 pandas
+scikit-learn
+seaborn

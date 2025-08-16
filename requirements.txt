@@ -4,3 +4,8 @@ pandas
 scikit-learn
 seaborn
 matplotlib
+langgraph
+langchain
+langchain-tavily
+python-dotenv
+streamlit

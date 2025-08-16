@@ -9,3 +9,4 @@ langchain
 langchain-tavily
 python-dotenv
 streamlit
+tomli

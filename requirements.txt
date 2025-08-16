@@ -10,3 +10,5 @@ langchain-tavily
 python-dotenv
 streamlit
 tomli
+fastapi
+uvicorn

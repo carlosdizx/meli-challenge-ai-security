@@ -1,6 +1,14 @@
+# Environment
 .venv/
+
+# IDE
 .idea/
 
+# Python
+*.pyc
+__pycache__/
+
+# Output
 output/
 data/
 

@@ -8,6 +8,7 @@ langgraph
 langchain
 langchain-tavily
 python-dotenv
+xgboost
 streamlit
 tomli
 fastapi

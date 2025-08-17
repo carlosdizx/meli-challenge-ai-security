@@ -25,37 +25,37 @@ def preprocess_data(df):
 
 def train_isolation_forest(X_train, X_test, y_test):
     print("\nTraining Isolation Forest...")
-    model = IsolationForest(contamination=0.05, random_state=42, n_jobs=-1)
-    model.fit(X_train)
+    modelIF = IsolationForest(contamination=0.05, random_state=42, n_jobs=-1)
+    modelIF.fit(X_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = modelIF.predict(X_test)
     y_pred = [1 if x == -1 else 0 for x in y_pred]
 
     print("\nIsolation Forest Results:")
     print(classification_report(y_test, y_pred, target_names=['Normal', 'Anomaly']))
-    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print(f"Accuracy: {100 *accuracy_score(y_test, y_pred):.4f}")
 
-    return model
+    return modelIF
 
 
 def train_random_forest(X_train, X_test, y_train, y_test):
     print("\nTraining Random Forest...")
-    model = RandomForestClassifier(
+    modelRFC = RandomForestClassifier(
         n_estimators=100,
         max_depth=10,
         random_state=42,
         n_jobs=-1,
         class_weight='balanced'
     )
-    model.fit(X_train, y_train)
+    modelRFC.fit(X_train, y_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = modelRFC.predict(X_test)
 
     print("\nRandom Forest Results:")
     print(classification_report(y_test, y_pred, target_names=['Normal', 'Anomaly']))
-    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print(f"Accuracy: {100 * accuracy_score(y_test, y_pred):.4f}")
 
-    return model
+    return modelRFC
 
 
 def save_model(model, model_name, label_encoders):
@@ -72,14 +72,10 @@ def save_model(model, model_name, label_encoders):
     print(f"\nModel and encoders saved to {model_path}")
 
 
-
-
 df = pd.read_csv(Path(__file__).parent.parent / 'data' / 'dataset.csv')
 X, y, label_encoders = preprocess_data(df)
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 print(f"Training data shape: {X_train.shape}")
 print(f"Test data shape: {X_test.shape}")
@@ -93,4 +89,3 @@ models = {
 
 for name, model in models.items():
     save_model(model, name, label_encoders if name != 'isolation_forest' else None)
-

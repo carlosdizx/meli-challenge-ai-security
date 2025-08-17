@@ -13,3 +13,4 @@ tomli
 fastapi
 uvicorn
 joblib
+numpy

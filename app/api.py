@@ -3,10 +3,17 @@ import pandas as pd
 import joblib
 from dto.log_entry import LogEntry
 from pathlib import Path
+from utils.model_loader import ModelManager
 
 app = FastAPI()
 
 model = joblib.load(Path(__file__).parent.parent / 'model/isolation_forest.pkl')
+
+model_manager = ModelManager()
+
+model_manager.load_model('isolation_forest', load_encoders=False)
+model_manager.load_model('random_forest')
+model_manager.load_model('xgboost')
 
 
 @app.get("/greeting")

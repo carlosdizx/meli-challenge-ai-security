@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
+from xgboost import XGBClassifier
 
 
 def preprocess_data(df):
@@ -58,6 +59,29 @@ def train_random_forest(X_train, X_test, y_train, y_test):
     return modelRFC
 
 
+def train_xgboost(X_train, X_test, y_train, y_test):
+    print("\nTraining XGBoost...")
+    modelXGB = XGBClassifier(
+        n_estimators=200,
+        max_depth=6,
+        learning_rate=0.1,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        random_state=42,
+        n_jobs=-1,
+        scale_pos_weight=sum(y_train == 0) / sum(y_train == 1)
+    )
+    modelXGB.fit(X_train, y_train)
+
+    y_pred = modelXGB.predict(X_test)
+
+    print("\nXGBoost Results:")
+    print(classification_report(y_test, y_pred, target_names=['Normal', 'Anomaly']))
+    print(f"Accuracy: {100 *accuracy_score(y_test, y_pred):.4f}")
+
+    return modelXGB
+
+
 def save_model(model, model_name, label_encoders):
     output_dir = Path(__file__).parent.parent / 'model'
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -85,6 +109,7 @@ print(f"Class distribution in test set: {np.bincount(y_test)}")
 models = {
     'isolation_forest': train_isolation_forest(X_train, X_test, y_test),
     'random_forest': train_random_forest(X_train, X_test, y_train, y_test),
+    'xgboost': train_xgboost(X_train, X_test, y_train, y_test),
 }
 
 for name, model in models.items():

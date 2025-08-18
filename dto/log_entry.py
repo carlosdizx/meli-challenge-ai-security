@@ -5,13 +5,14 @@ from dataclasses import dataclass
 class LogEntry:
     ip_address: int
     country: str
-    asn: str
+    asn: int
     user_agent_string: str
     browser_name_and_version: str
     os_name_and_version: str
     device_type: str
     login_successful: bool
     is_attack_ip: bool
+
     # is_account_takeover: bool
 
     @classmethod
@@ -19,7 +20,7 @@ class LogEntry:
         return cls(
             ip_address=int(data.get('IP Address', 0)),
             country=data.get('Country', ''),
-            asn=data.get('ASN', ''),
+            asn=int(data.get('ASN', 0)),
             user_agent_string=data.get('User Agent String', ''),
             browser_name_and_version=data.get('Browser Name and Version', ''),
             os_name_and_version=data.get('OS Name and Version', ''),

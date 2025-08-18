@@ -12,22 +12,27 @@ def save_feature_columns(cols):
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / 'feature_columns.json', 'w', encoding='utf-8') as f:
         json.dump(cols, f, ensure_ascii=False, indent=2)
-    print("Columnas de features guardadas en models/feature_columns.json")
+    print("Columnas de features guardadas en " / output_dir / "feature_columns.json")
 
 
 def preprocess_data(df: pd.DataFrame):
-    features = df.drop(['Is Attack IP', 'Is Account Takeover'], axis=1)
+    cols_to_drop = ['Is Attack IP', 'Is Account Takeover', 'User ID', 'IP Address']
+    cols_to_drop = [c for c in cols_to_drop if c in df.columns]
+
+    features = df.drop(columns=cols_to_drop, axis=1)
     target = df['Is Account Takeover']
 
-    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42,
-                                                        stratify=target)
+    X_train, X_test, y_train, y_test = train_test_split(
+        features, target, test_size=0.2, random_state=42, stratify=target
+    )
 
     print("\n")
     print(f"Total datos: {df.shape[0]}")
     print(f"Datos de entrenamiento: {X_train.shape[0]}")
     print(f"Datos de prueba: {X_test.shape[0]}")
 
-    return X_train, X_test, y_train, y_test
+    feature_cols = features.columns.tolist()
+    return X_train, X_test, y_train, y_test, feature_cols
 
 
 def train_isolation_forest(X_train, y_train, X_test, y_test):
@@ -68,7 +73,7 @@ try:
     df = pd.read_csv(data_path)
 
     # 2. Pre-procesar los datos
-    X_train, X_test, y_train, y_test = preprocess_data(df)
+    X_train, X_test, y_train, y_test, feature_cols = preprocess_data(df)
 
     # 3. Entrenar los modelos
     print("\n")
@@ -80,6 +85,9 @@ try:
     # 4. Guardar solo los modelos que se entrenaron correctamente
     for name, model in models.items():
         save_model(model, name)
+
+    # 5. Guardar las columnas de features
+    save_feature_columns(feature_cols)
 
 
 except Exception as e:

@@ -21,19 +21,18 @@ def preprocess_data(df: pd.DataFrame):
     return X_train, X_test, y_train, y_test
 
 
-def train_isolation_forest(X_train, X_test, y_test):
-    print("\n")
-    print("Entrenando Isolation Forest...")
+def train_isolation_forest(X_train, y_train, X_test, y_test):
+    print("\nEntrenando Isolation Forest...")
 
-    # Sí hay dos clases, proceder con entrenamiento supervisado normal
+    X_fit = X_train[y_train == 0]
+
     model = IsolationForest(contamination=0.05, random_state=42, n_jobs=-1)
-    model.fit(X_train, y_train)
+    model.fit(X_fit)  # <- sin y
 
     y_pred = model.predict(X_test)
     y_pred = [1 if x == -1 else 0 for x in y_pred]
 
-    print("\n")
-    print("Resultados de Isolation Forest:")
+    print("\nResultados de Isolation Forest:")
     print(classification_report(y_test, y_pred, target_names=['Normal', 'Anomalía'], zero_division=0))
     print(f"Precisión: {100 * accuracy_score(y_test, y_pred):.4f}%")
 
@@ -66,7 +65,7 @@ try:
     print("\n")
     print("Iniciando entrenamiento de modelos...")
     models = {
-        'isolation_forest': train_isolation_forest(X_train, X_test, y_test),
+        'isolation_forest': train_isolation_forest(X_train, y_train, X_test, y_test),
     }
 
     # 4. Guardar solo los modelos que se entrenaron correctamente

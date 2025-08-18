@@ -18,12 +18,7 @@ df = pd.read_csv(f"{path}/rba-dataset.csv", nrows=int(rows))
 
 # 4.Limpiar el dataset
 df.drop(columns=['User ID', 'User Agent String', 'Browser Name and Version', 'OS Name and Version',
-                 'Round-Trip Time [ms]', 'ASN', "Login Timestamp", "IP Address"], inplace=True)
-df['Region'] = df['Region'].replace('-', 'Unknown')
-df['Region'] = df['Region'].fillna('Unknown')
-
-df['City'] = df['City'].replace('-', 'Unknown')
-df['City'] = df['City'].fillna('Unknown')
+                 'Round-Trip Time [ms]', 'ASN', "Login Timestamp", "IP Address", "Region", "City"], inplace=True)
 
 df['Device Type'] = df['Device Type'].fillna('unknown')
 
@@ -31,9 +26,11 @@ df['Device Type'] = df['Device Type'].fillna('unknown')
 
 categorical_cols = df.select_dtypes(include=['object']).columns
 
-for col in categorical_cols:
-    df[col] = df[col].astype('category')
-    df[col] = df[col].cat.codes
+print(df.head(5))
+
+# for col in categorical_cols:
+#     df[col] = df[col].astype('category')
+#     df[col] = df[col].cat.codes
 
 # 6.Exportar el dataset limpio a un archivo CSV
 output_path = Path(__file__).parent.parent / 'data' / 'dataset.csv'

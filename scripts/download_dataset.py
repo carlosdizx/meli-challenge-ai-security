@@ -28,4 +28,6 @@ def load_dataset():
 
     df['IP Address'] = df['IP Address'].apply(lambda x: int(ipaddress.ip_address(x)))
 
+    print(f"Dataset descargado exitosamente en {path}")
+
     return df

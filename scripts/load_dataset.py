@@ -37,5 +37,5 @@ def load_dataset():
 
 df = load_dataset()
 
-export_csv(df)
 export_json(df)
+export_csv(df)

@@ -8,11 +8,12 @@ from scripts.export_to_csv import export_csv
 from scripts.export_to_json import export_json
 
 # 2. Leer secrets.toml
-secrets_path = Path(__file__).parent.parent / '.streamlit' / 'secrets.toml'
+secrets_path = Path(__file__).resolve().parents[1] / '.streamlit' / 'secrets.toml'
+
 with open(secrets_path, 'rb') as f:
     secrets = tomli.load(f)
 
-chunk_size = secrets["DATASET_CHUNK_SIZE"]
+chunk_size = int(secrets["DATASET_CHUNK_SIZE"])
 
 
 def load_dataset():

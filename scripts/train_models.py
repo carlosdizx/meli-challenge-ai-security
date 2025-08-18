@@ -4,6 +4,15 @@ from pathlib import Path
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.ensemble import IsolationForest
+import json
+
+
+def save_feature_columns(cols):
+    output_dir = Path(__file__).parent.parent / 'models'
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with open(output_dir / 'feature_columns.json', 'w', encoding='utf-8') as f:
+        json.dump(cols, f, ensure_ascii=False, indent=2)
+    print("Columnas de features guardadas en models/feature_columns.json")
 
 
 def preprocess_data(df: pd.DataFrame):

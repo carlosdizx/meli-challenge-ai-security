@@ -12,7 +12,7 @@ secrets_path = Path(__file__).parent.parent / '.streamlit' / 'secrets.toml'
 with open(secrets_path, 'rb') as f:
     secrets = tomli.load(f)
 
-rows = secrets["DATASET_ROWS"]
+chunk_size = secrets["DATASET_CHUNK_SIZE"]
 
 
 def load_dataset():
@@ -20,7 +20,12 @@ def load_dataset():
 
     path = dataset_download("dasgroup/rba-dataset")
 
-    df = pd.read_csv(f"{path}/rba-dataset.csv", nrows=int(rows))
+    chunks = []
+
+    for chunk in pd.read_csv(f"{path}/rba-dataset.csv", chunksize=chunk_size):
+        chunks.append(chunk)
+
+    df = pd.concat(chunks, axis=0)
 
     # 4.Limpiar el dataset
     df.drop(columns=['index', 'Round-Trip Time [ms]', "Login Timestamp", "Region", "City"],
@@ -35,6 +40,7 @@ def load_dataset():
     return df
 
 
+print(f"Descargando dataset, esto puede tardar unos minutos...")
 df = load_dataset()
 
 export_json(df)

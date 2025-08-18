@@ -12,7 +12,7 @@ def save_feature_columns(cols):
     output_dir.mkdir(parents=True, exist_ok=True)
     with open(output_dir / 'feature_columns.json', 'w', encoding='utf-8') as f:
         json.dump(cols, f, ensure_ascii=False, indent=2)
-    print("Columnas de features guardadas en " / output_dir / "feature_columns.json")
+    print(f"Columnas de features guardadas en {output_dir / 'feature_columns.json'}")
 
 
 def preprocess_data(df: pd.DataFrame):

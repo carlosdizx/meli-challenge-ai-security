@@ -41,7 +41,7 @@ def train_isolation_forest(X_train, y_train, X_test, y_test):
 
 def save_model(model, model_name):
     # Crear directorio de salida si no existe
-    output_dir = Path(__file__).parent.parent / 'model'
+    output_dir = Path(__file__).parent.parent / 'models'
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Guardar el modelo

@@ -11,12 +11,10 @@ model = joblib.load(Path(__file__).parent.parent / 'model/isolation_forest.pkl')
 
 model_manager = ModelManager()
 
-model_manager.load_model('isolation_forest', load_encoders=False)
-model_manager.load_model('random_forest')
-model_manager.load_model('xgboost')
+model_manager.load_model('isolation_forest')
 
 
-@app.get("/greeting")
+@app.get("/")
 def read_root():
     return {"Hello": "World"}
 

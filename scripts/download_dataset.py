@@ -1,0 +1,31 @@
+# 1. Importar librerias
+import pandas as pd
+from kagglehub import dataset_download
+import tomli
+from pathlib import Path
+import ipaddress
+
+# 2. Leer secrets.toml
+secrets_path = Path(__file__).parent.parent / '.streamlit' / 'secrets.toml'
+with open(secrets_path, 'rb') as f:
+    secrets = tomli.load(f)
+
+rows = secrets["DATASET_ROWS"]
+
+
+def load_dataset():
+    # 3. Descargar y leer el dataset
+
+    path = dataset_download("dasgroup/rba-dataset")
+
+    df = pd.read_csv(f"{path}/rba-dataset.csv", nrows=int(rows))
+
+    # 4.Limpiar el dataset
+    df.drop(columns=['index', 'Round-Trip Time [ms]', "Login Timestamp", "Region", "City"],
+            inplace=True)
+
+    # 5. Transformación de ips a enteros
+
+    df['IP Address'] = df['IP Address'].apply(lambda x: int(ipaddress.ip_address(x)))
+
+    return df

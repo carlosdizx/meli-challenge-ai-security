@@ -4,6 +4,8 @@ from kagglehub import dataset_download
 import tomli
 from pathlib import Path
 import ipaddress
+from scripts.export_to_csv import export_csv
+from scripts.export_to_json import export_json
 
 # 2. Leer secrets.toml
 secrets_path = Path(__file__).parent.parent / '.streamlit' / 'secrets.toml'
@@ -31,3 +33,9 @@ def load_dataset():
     print(f"Dataset descargado exitosamente en {path}")
 
     return df
+
+
+df = load_dataset()
+
+export_csv(df)
+export_json(df)

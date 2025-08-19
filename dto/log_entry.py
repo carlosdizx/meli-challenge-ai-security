@@ -53,7 +53,7 @@ def _parse_bool_strict(v, key: str) -> bool:
 
 @dataclass
 class LogEntry:
-    ip_address: int
+    ip_address: str | int
     country: str
     asn: int
     user_agent_string: str

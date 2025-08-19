@@ -11,6 +11,8 @@ def _require(data: Dict[str, Any], key: str):
 
 
 def _parse_ip(v) -> int:
+    if isinstance(v, int):
+        return v
     try:
         return int(ipaddress.ip_address(str(v)))
     except Exception as e:

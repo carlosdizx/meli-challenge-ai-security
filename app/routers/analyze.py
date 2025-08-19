@@ -1,15 +1,14 @@
 from fastapi import APIRouter
-from typing import List, Dict, Any
+from dto.log_entry import LogEntry
 
 router = APIRouter()
 
 
 @router.post("/")
-def analyze(batch: List[Dict[str, Any]]):
+def analyze(logs: list[LogEntry]):
     return {
-        "received": len(batch),
+        "received": len(logs),
         "threat_detected": False,
         "scores": [],
         "suggested_action": "allow",
-        "note": "stub - conectaremos el modelo en el siguiente paso"
     }

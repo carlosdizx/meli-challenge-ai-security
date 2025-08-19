@@ -36,7 +36,6 @@ def _parse_int(v, key: str) -> int:
 
 
 def _parse_bool_strict(v, key: str) -> bool:
-    # Acepta solo: True/False (bool) o 1/0 (int/str)
     if isinstance(v, bool):
         return v
     if isinstance(v, int):
@@ -66,7 +65,6 @@ class LogEntry:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "LogEntry":
-        # Campos requeridos (del dataset que estás usando)
         ip_addr = _parse_ip(_require(data, "IP Address"))
         country = _parse_str(_require(data, "Country"), "Country")
         asn = _parse_int(_require(data, "ASN"), "ASN")
@@ -99,7 +97,6 @@ class LogEntry:
             "browser_name_and_version": self.browser_name_and_version,
             "os_name_and_version": self.os_name_and_version,
             "device_type": self.device_type,
-            # Exporta booleanos como 0/1 para ML downstream:
             "login_successful": 1 if self.login_successful else 0,
             "is_attack_ip": 1 if self.is_attack_ip else 0,
         }

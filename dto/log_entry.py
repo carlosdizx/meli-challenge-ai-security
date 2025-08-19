@@ -90,7 +90,7 @@ class LogEntry:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "ip_address": self.ip_address,
+            "ip_address": _parse_ip(self.ip_address),
             "country": self.country,
             "asn": self.asn,
             "user_agent_string": self.user_agent_string,

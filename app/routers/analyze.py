@@ -4,6 +4,9 @@ import pandas as pd
 from app.services.model_service import model_service
 from dto.log_entry import LogEntry
 
+if not model_service.is_loaded():
+    raise HTTPException(status_code=500, detail="Modelo no cargado")
+
 router = APIRouter()
 
 FEATURE_KEYMAP = {
@@ -32,3 +35,11 @@ def analyze(logs: list[LogEntry]):
     except Exception as e:
         print(e)
         raise e
+    batch = []
+    for i, row in df.iterrows():
+        item = {}
+        for attr, col_name in FEATURE_KEYMAP.items():
+            item[col_name] = float(row[attr])
+        batch.append(item)
+
+    anomalies, scores = model_service.predict(batch)

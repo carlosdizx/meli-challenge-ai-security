@@ -25,9 +25,8 @@ FEATURE_KEYMAP = {
 
 
 @router.post("/")
-def analyze(request: Request, logs: list[LogEntry]):
-    request_id = request.state.correlation_id if hasattr(request.state, 'correlation_id') else str(uuid.uuid4())
-    state = make_initial_state(logs_input=logs, request_id=request_id)
+def analyze(logs: list[LogEntry]):
+    state = make_initial_state(logs_input=logs, request_id=f"api-{str(uuid.uuid4())}")
     state = ingest(state)
 
     try:

@@ -44,6 +44,10 @@ def load_dataset():
 print(f"Descargando dataset, esto puede tardar unos minutos...")
 df = load_dataset()
 
-export_json(df.head(10000), "first_10000")
-export_json(df.head(-10000), "last_10000")
+for i in range(5):
+    start_idx = i * 10000
+    end_idx = start_idx + 10000
+    chunk = df.iloc[start_idx:end_idx]
+    export_json(chunk, f"chunk_{start_idx + 1}_to_{end_idx}")
+
 export_csv(df)

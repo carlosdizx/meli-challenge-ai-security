@@ -19,7 +19,13 @@ FEATURE_KEYMAP = {
 
 @router.post("/")
 def analyze(logs: list[LogEntry]):
-    log_dicts = [log.to_dict() for log in logs]
+    df = pd.DataFrame([log.to_dict() for log in logs])
+
+    df['user_agent_string'], _ = pd.factorize(df['user_agent_string'])
+    df['browser_name_and_version'], _ = pd.factorize(df['browser_name_and_version'])
+    df['os_name_and_version'], _ = pd.factorize(df['os_name_and_version'])
+    df['country'], _ = pd.factorize(df['country'])
+    df['device_type'], _ = pd.factorize(df['device_type'])
 
     try:
         return log_dicts

@@ -2,6 +2,7 @@ import uuid
 
 from agents.agents.decision import decide
 from agents.ingestion import ingest
+from agents.report import build_report
 from agents.transform import transform
 from graph.pipeline_state import make_initial_state
 from services.model_service import model_service
@@ -39,9 +40,12 @@ def analyze(logs: list[LogEntry]):
 
     state = decide(state)
 
+    state = build_report(state)
+
     anomalies = state["predictions"]
     scores = state["scores"]
     action = state["decision"]
+    report = state["report_summary"]
 
     results = []
     for i, (a, s) in enumerate(zip(anomalies, scores)):
@@ -58,5 +62,6 @@ def analyze(logs: list[LogEntry]):
         "received": len(logs),
         "threat_detected": any(a == 1 for a in anomalies),
         "suggested_action": action,
+        "report": report,
         "results": results
     }

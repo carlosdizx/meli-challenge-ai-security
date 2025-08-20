@@ -37,7 +37,7 @@ class PipelineState(TypedDict, total=False):
 
 
 def make_initial_state(
-        logs_input: List[Dict[str, Any]],
+        logs_input: list[LogEntry],
         request_id: str,
         source: str = "api",
 ) -> PipelineState:

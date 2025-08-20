@@ -2,6 +2,7 @@ import uuid
 import pandas as pd
 
 from agents.ingestion import ingest
+from agents.transform import transform
 from graph.pipeline_state import make_initial_state
 from services.model_service import model_service
 from dto.log_entry import LogEntry
@@ -28,24 +29,16 @@ def analyze(request: Request, logs: list[LogEntry]):
     request_id = request.state.correlation_id if hasattr(request.state, 'correlation_id') else str(uuid.uuid4())
     state = make_initial_state(logs_input=logs, request_id=request_id)
     state = ingest(state)
-    df = state["df_raw"]
 
-    df['user_agent_string'], _ = pd.factorize(df['user_agent_string'])
-    df['browser_name_and_version'], _ = pd.factorize(df['browser_name_and_version'])
-    df['os_name_and_version'], _ = pd.factorize(df['os_name_and_version'])
-    df['country'], _ = pd.factorize(df['country'])
-    df['device_type'], _ = pd.factorize(df['device_type'])
+    try:
+        state = transform(state)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-    batch = []
-    for i, row in df.iterrows():
-        item = {}
-        for attr, col_name in FEATURE_KEYMAP.items():
-            item[col_name] = float(row[attr])
-        batch.append(item)
+    anomalies, scores = model_service.predict(state["batch"])
 
-    anomalies, scores = model_service.predict(batch)
-
-    if "is_attack_ip" in df.columns and (df["is_attack_ip"] == 1).any():
+    df_raw = state["df_raw"]
+    if "is_attack_ip" in df_raw.columns and (df_raw["is_attack_ip"] == 1).any():
         action = "block"
     elif any(a == 1 for a in anomalies):
         action = "alert"

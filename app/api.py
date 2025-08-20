@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-import pandas as pd
 import joblib
-from dto.log_entry import LogEntry
+from app.dto.log_entry import LogEntry
 from pathlib import Path
 from utils.model_loader import ModelManager
 

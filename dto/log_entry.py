@@ -74,7 +74,6 @@ class LogEntry:
         device = _parse_str(_require(data, "Device Type"), "Device Type")
         login_ok = _parse_bool_strict(_require(data, "Login Successful"), "Login Successful")
         atk_ip = _parse_bool_strict(_require(data, "Is Attack IP"), "Is Attack IP")
-        ato = _parse_bool_strict(_require(data, "Is Account Takeover"), "Is Account Takeover")
 
         return cls(
             ip_address=ip_addr,

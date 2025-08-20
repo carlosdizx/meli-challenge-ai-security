@@ -44,5 +44,6 @@ def load_dataset():
 print(f"Descargando dataset, esto puede tardar unos minutos...")
 df = load_dataset()
 
-export_json(df)
+export_json(df.head(10000), "first_10000")
+export_json(df.head(-10000), "last_10000")
 export_csv(df)

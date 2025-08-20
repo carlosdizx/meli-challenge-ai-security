@@ -1,8 +1,11 @@
-from fastapi import APIRouter, HTTPException
+import uuid
 import pandas as pd
 
+from agents.ingestion import ingest
+from graph.pipeline_state import make_initial_state
 from services.model_service import model_service
 from dto.log_entry import LogEntry
+from fastapi import APIRouter, HTTPException, Request
 
 if not model_service.is_loaded():
     raise HTTPException(status_code=500, detail="Modelo no cargado")
@@ -21,8 +24,11 @@ FEATURE_KEYMAP = {
 
 
 @router.post("/")
-def analyze(logs: list[LogEntry]):
-    df = pd.DataFrame([log.to_dict() for log in logs])
+def analyze(request: Request, logs: list[LogEntry]):
+    request_id = request.state.correlation_id if hasattr(request.state, 'correlation_id') else str(uuid.uuid4())
+    state = make_initial_state(logs_input=logs, request_id=request_id)
+    state = ingest(state)
+    df = state["df_raw"]
 
     df['user_agent_string'], _ = pd.factorize(df['user_agent_string'])
     df['browser_name_and_version'], _ = pd.factorize(df['browser_name_and_version'])

@@ -1,5 +1,6 @@
 import uuid
 
+from agents.agents.decision import decide
 from agents.ingestion import ingest
 from agents.transform import transform
 from graph.pipeline_state import make_initial_state
@@ -35,16 +36,12 @@ def analyze(logs: list[LogEntry]):
         raise HTTPException(status_code=400, detail=str(e))
 
     state = predict(state)
+
+    state = decide(state)
+
     anomalies = state["predictions"]
     scores = state["scores"]
-
-    df_raw = state["df_raw"]
-    if "is_attack_ip" in df_raw.columns and (df_raw["is_attack_ip"] == 1).any():
-        action = "block"
-    elif any(a == 1 for a in anomalies):
-        action = "alert"
-    else:
-        action = "allow"
+    action = state["decision"]
 
     results = []
     for i, (a, s) in enumerate(zip(anomalies, scores)):

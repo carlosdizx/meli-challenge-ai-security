@@ -30,11 +30,6 @@ def analyze(logs: list[LogEntry]):
     df['country'], _ = pd.factorize(df['country'])
     df['device_type'], _ = pd.factorize(df['device_type'])
 
-    try:
-        return log_dicts
-    except Exception as e:
-        print(e)
-        raise e
     batch = []
     for i, row in df.iterrows():
         item = {}
@@ -43,3 +38,28 @@ def analyze(logs: list[LogEntry]):
         batch.append(item)
 
     anomalies, scores = model_service.predict(batch)
+
+    if "is_attack_ip" in df.columns and (df["is_attack_ip"] == 1).any():
+        action = "block"
+    elif any(a == 1 for a in anomalies):
+        action = "alert"
+    else:
+        action = "allow"
+
+    results = []
+    for i, (a, s) in enumerate(zip(anomalies, scores)):
+        results.append({
+            "index": i,
+            "anomaly": a,
+            "threat": bool(a),
+            "score": s,
+            "suggested_action": "alert" if a == 1 else "allow",
+            "reasons": ["IsolationForest: outlier"] if a == 1 else []
+        })
+
+    return {
+        "received": len(logs),
+        "threat_detected": any(a == 1 for a in anomalies),
+        "suggested_action": action,
+        "results": results
+    }

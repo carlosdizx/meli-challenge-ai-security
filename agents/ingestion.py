@@ -1,5 +1,6 @@
 import pandas as pd
 
+from dto.log_entry import LogEntry
 from graph.pipeline_state import PipelineState
 
 FEATURE_KEYMAP = {
@@ -13,23 +14,11 @@ FEATURE_KEYMAP = {
 }
 
 
-def prepare_batch(state: PipelineState) -> PipelineState:
-    logs = state['logs_input']
+def ingest(state: PipelineState) -> PipelineState:
+    logs: list[LogEntry] = state["logs_input"]
+    validated_logs = [log.to_dict() for log in logs]
+    df_raw = pd.DataFrame(validated_logs)
 
-    df = pd.DataFrame([log.to_dict() for log in logs])
-
-    df['user_agent_string'], _ = pd.factorize(df['user_agent_string'])
-    df['browser_name_and_version'], _ = pd.factorize(df['browser_name_and_version'])
-    df['os_name_and_version'], _ = pd.factorize(df['os_name_and_version'])
-    df['country'], _ = pd.factorize(df['country'])
-    df['device_type'], _ = pd.factorize(df['device_type'])
-
-    batch = []
-    for i, row in df.iterrows():
-        item = {}
-        for attr, col_name in FEATURE_KEYMAP.items():
-            item[col_name] = float(row[attr])
-        batch.append(item)
-    state['validated_logs'] = batch
-
+    state["validated_logs"] = validated_logs
+    state["df_raw"] = df_raw
     return state

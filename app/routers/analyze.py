@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 import pandas as pd
 
-from app.services.model_service import model_service
-from app.dto.log_entry import LogEntry
+from services.model_service import model_service
+from dto.log_entry import LogEntry
 
 if not model_service.is_loaded():
     raise HTTPException(status_code=500, detail="Modelo no cargado")

@@ -1,7 +1,7 @@
 # 1. Importar librerias
 import json
 from pathlib import Path
-from app.dto.log_entry import LogEntry
+from dto.log_entry import LogEntry
 import pandas as pd
 
 

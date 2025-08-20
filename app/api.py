@@ -1,29 +1,8 @@
 from fastapi import FastAPI
-import joblib
-from app.dto.log_entry import LogEntry
-from pathlib import Path
-from utils.model_loader import ModelManager
+from app.routers.health import router as health_router
+from app.routers.analyze import router as analyze_router
 
-app = FastAPI()
+app = FastAPI(title="Security and AI for Risk-Based Authentication", version="1.0.0")
 
-model = joblib.load(Path(__file__).parent.parent / 'model/isolation_forest.pkl')
-
-model_manager = ModelManager()
-
-model_manager.load_model('isolation_forest')
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.post("/analyze")
-def analyze(logs: list[LogEntry]):
-    try:
-        log_dicts = [log.to_dict() for log in logs]
-
-        return log_dicts
-    except Exception as e:
-        print(e)
-        raise
+app.include_router(health_router, prefix="/health", tags=["health"])
+app.include_router(analyze_router, prefix="/analyze", tags=["analyze"])

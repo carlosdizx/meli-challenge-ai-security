@@ -1,5 +1,4 @@
 import uuid
-import pandas as pd
 
 from agents.ingestion import ingest
 from agents.transform import transform
@@ -7,6 +6,7 @@ from graph.pipeline_state import make_initial_state
 from services.model_service import model_service
 from dto.log_entry import LogEntry
 from fastapi import APIRouter, HTTPException, Request
+from agents.predict import predict
 
 if not model_service.is_loaded():
     raise HTTPException(status_code=500, detail="Modelo no cargado")
@@ -35,7 +35,9 @@ def analyze(request: Request, logs: list[LogEntry]):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    anomalies, scores = model_service.predict(state["batch"])
+    state = predict(state)
+    anomalies = state["predictions"]
+    scores = state["scores"]
 
     df_raw = state["df_raw"]
     if "is_attack_ip" in df_raw.columns and (df_raw["is_attack_ip"] == 1).any():

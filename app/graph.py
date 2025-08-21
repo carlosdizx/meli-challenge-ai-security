@@ -52,7 +52,7 @@ def build_graph():
     return g.compile()
 
 
-def run_pipeline(logs_input: list[LogEntry], request_id: str, source: str = "api") -> PipelineState:
+def run_pipeline(logs_input: list[LogEntry], request_id: str, source: str) -> PipelineState:
     app = build_graph()
     state = make_initial_state(logs_input=logs_input, request_id=request_id, source=source)
     return app.invoke(state)

@@ -18,7 +18,7 @@ def analyze(logs: list[LogEntry]):
 
     return {
         "received": len(logs),
-        "threat_detected": any(a == 1 for a in response["predictions"]),
+        "threat_detected": any(a == 1 for a in response.get("predictions")),
         "suggested_action": response.get("decision"),
         "report": response.get("report_summary"),
         "reasons": response.get("decision_reasons"),

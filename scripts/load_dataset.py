@@ -48,6 +48,6 @@ for i in range(5):
     start_idx = i * 10000
     end_idx = start_idx + 10000
     chunk = df.iloc[start_idx:end_idx]
-    export_json(chunk, f"chunk_{start_idx + 1}_to_{end_idx}")
+    export_json(chunk, f"chunk_{i + 1}.json")
 
 export_csv(df)

@@ -16,3 +16,4 @@ uvicorn
 joblib
 numpy
 ijson
+langgraph-cli[inmem]

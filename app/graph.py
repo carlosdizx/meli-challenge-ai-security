@@ -5,6 +5,7 @@ from agents.ingestion import ingest
 from agents.transform import transform
 from agents.predict import predict
 from agents.report import build_report
+from dto.log_entry import LogEntry
 from graph.pipeline_state import PipelineState, make_initial_state
 
 
@@ -51,7 +52,7 @@ def build_graph():
     return g.compile()
 
 
-def run_pipeline(logs_input: list, request_id: str, source: str = "api") -> PipelineState:
+def run_pipeline(logs_input: list[LogEntry], request_id: str, source: str = "api") -> PipelineState:
     app = build_graph()
     state = make_initial_state(logs_input=logs_input, request_id=request_id, source=source)
     return app.invoke(state)

@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "rba_pipeline": "./app/graph.py:build_graph"
+  },
+  "python_version": "3.11",
+  "env": "./.env"
+}

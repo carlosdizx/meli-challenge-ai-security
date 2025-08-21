@@ -17,6 +17,7 @@ def analyze(logs: list[LogEntry]):
     response = run_pipeline(logs_input=logs, request_id=f"api-{str(uuid.uuid4())}", source="api")
 
     return {
+        "request_id": response.get("request_id"),
         "received": len(logs),
         "threat_detected": any(a == 1 for a in response.get("predictions")),
         "suggested_action": response.get("decision"),

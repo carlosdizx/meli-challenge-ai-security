@@ -1,15 +1,32 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict, Any, Iterable, List
 import ipaddress
+
+# -----------------------------
+# Alias de claves aceptadas
+# -----------------------------
+KEY_ALIASES: Dict[str, list[str]] = {
+    "ip_address": ["ip_address", "IP Address"],
+    "country": ["country", "Country"],
+    "asn": ["asn", "ASN"],
+    "user_agent_string": ["user_agent_string", "User Agent String"],
+    "browser_name_and_version": ["browser_name_and_version", "Browser Name and Version"],
+    "os_name_and_version": ["os_name_and_version", "OS Name and Version"],
+    "device_type": ["device_type", "Device Type"],
+    "login_successful": ["login_successful", "Login Successful"],
+    "is_attack_ip": ["is_attack_ip", "Is Attack IP"],
+}
+
+
+def _get_required(data: Dict[str, Any], canon_key: str):
+    aliases = KEY_ALIASES.get(canon_key, [canon_key])
+    for k in aliases:
+        if k in data:
+            return data[k]
+    raise ValueError(f"Falta el campo requerido: '{canon_key}' (aceptados: {aliases})")
 
 
 # --- helpers de validación estricta ---
-def _require(data: Dict[str, Any], key: str):
-    if key not in data:
-        raise ValueError(f"Falta el campo requerido: '{key}'")
-    return data[key]
-
-
 def _parse_ip(v) -> int:
     if isinstance(v, int):
         return v
@@ -65,15 +82,15 @@ class LogEntry:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "LogEntry":
-        ip_addr = _parse_ip(_require(data, "IP Address"))
-        country = _parse_str(_require(data, "Country"), "Country")
-        asn = _parse_int(_require(data, "ASN"), "ASN")
-        ua = _parse_str(_require(data, "User Agent String"), "User Agent String")
-        br = _parse_str(_require(data, "Browser Name and Version"), "Browser Name and Version")
-        os_ = _parse_str(_require(data, "OS Name and Version"), "OS Name and Version")
-        device = _parse_str(_require(data, "Device Type"), "Device Type")
-        login_ok = _parse_bool_strict(_require(data, "Login Successful"), "Login Successful")
-        atk_ip = _parse_bool_strict(_require(data, "Is Attack IP"), "Is Attack IP")
+        ip_addr = _parse_ip(_get_required(data, "ip_address"))
+        country = _parse_str(_get_required(data, "country"), "country")
+        asn = _parse_int(_get_required(data, "asn"), "asn")
+        ua = _parse_str(_get_required(data, "user_agent_string"), "user_agent_string")
+        br = _parse_str(_get_required(data, "browser_name_and_version"), "browser_name_and_version")
+        os_ = _parse_str(_get_required(data, "os_name_and_version"), "os_name_and_version")
+        device = _parse_str(_get_required(data, "device_type"), "device_type")
+        login_ok = _parse_bool_strict(_get_required(data, "login_successful"), "login_successful")
+        atk_ip = _parse_bool_strict(_get_required(data, "is_attack_ip"), "is_attack_ip")
 
         return cls(
             ip_address=ip_addr,
@@ -87,7 +104,32 @@ class LogEntry:
             is_attack_ip=atk_ip,
         )
 
+    @classmethod
+    def from_external(cls, data: Dict[str, Any]) -> "LogEntry":
+        return cls.from_dict(data)
+
+    @classmethod
+    def ensure(cls, obj: Any) -> "LogEntry":
+        if isinstance(obj, LogEntry):
+            return obj
+        if isinstance(obj, dict):
+            return cls.from_external(obj)
+        raise TypeError(f"No se puede convertir a LogEntry: tipo {type(obj)}")
+
+    @classmethod
+    def parse_list(cls, payload: Iterable[Any]) -> List["LogEntry"]:
+        if not isinstance(payload, Iterable):
+            raise TypeError("parse_list requiere un iterable (lista) de items")
+        result: List[LogEntry] = []
+        for i, item in enumerate(payload):
+            try:
+                result.append(cls.ensure(item))
+            except Exception as e:
+                raise ValueError(f"Registro {i}: {e}") from e
+        return result
+
     def to_dict(self) -> Dict[str, Any]:
+        # Exporta en snake_case, con enteros/códigos para booleans (1/0)
         return {
             "ip_address": _parse_ip(self.ip_address),
             "country": self.country,

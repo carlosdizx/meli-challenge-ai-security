@@ -1,39 +1,36 @@
 from langgraph.graph import StateGraph, END
-from typing import Dict, Any
 
-from graph.pipeline_state import PipelineState, make_initial_state
 from agents.decision import decide
 from agents.ingestion import ingest
 from agents.transform import transform
 from agents.predict import predict
 from agents.report import build_report
+from graph.pipeline_state import PipelineState, make_initial_state
 
 
-# Cada nodo "envuelve" a tu agente y devuelve SOLO los deltas necesarios (keys nuevas/actualizadas)
-
-def node_ingestion(state: PipelineState) -> Dict[str, Any]:
-    st = ingest(state)
-    return {"validated_logs": st["validated_logs"], "df_raw": st["df_raw"]}
+def node_ingestion(state: PipelineState) -> PipelineState:
+    state = ingest(state)
+    return state
 
 
-def node_transform(state: PipelineState) -> Dict[str, Any]:
-    st = transform(state)
-    return {"df_transformed": st["df_transformed"], "batch": st["batch"]}
+def node_transform(state: PipelineState) -> PipelineState:
+    state = transform(state)
+    return state
 
 
-def node_predict(state: PipelineState) -> Dict[str, Any]:
-    st = predict(state)
-    return {"predictions": st["predictions"], "scores": st["scores"]}
+def node_predict(state: PipelineState) -> PipelineState:
+    state = predict(state)
+    return state
 
 
-def node_decide(state: PipelineState) -> Dict[str, Any]:
-    st = decide(state)
-    return {"decision": st["decision"], "decision_reasons": st["decision_reasons"]}
+def node_decide(state: PipelineState) -> PipelineState:
+    state = decide(state)
+    return state
 
 
-def node_report(state: PipelineState) -> Dict[str, Any]:
-    st = build_report(state)
-    return {"report_summary": st["report_summary"], "report_df": st.get("report_df")}
+def node_report(state: PipelineState) -> PipelineState:
+    state = build_report(state)
+    return state
 
 
 def build_graph():

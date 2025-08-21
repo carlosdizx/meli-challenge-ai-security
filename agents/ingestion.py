@@ -6,6 +6,7 @@ from graph.pipeline_state import PipelineState
 
 def ingest(state: PipelineState) -> PipelineState:
     logs: list[LogEntry] = state["logs_input"]
+    logs = LogEntry.parse_list(logs)
     validated_logs = [log.to_dict() for log in logs]
     df_raw = pd.DataFrame(validated_logs)
 

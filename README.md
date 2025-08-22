@@ -34,7 +34,6 @@ de Python. Es una práctica esencial para un desarrollo limpio.
 En la raíz del proyecto, ejecuta:
 
 ```bash
-# Comando general (todas las plataformas)
 python -m venv .venv
 ```
 
@@ -64,13 +63,13 @@ El comando varía según tu sistema operativo y el shell que uses:
 
 Una vez activado el entorno, confirma que estás utilizando el intérprete correcto:
 
+Windows
 ```bash
-# Windows
 .\.venv\Scripts\python.exe --version
 ```
 
+macOS/Linux
 ```bash
-# macOS/Linux
 .venv/bin/python --version
 ```
 

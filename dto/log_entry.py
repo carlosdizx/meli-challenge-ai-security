@@ -1,12 +1,10 @@
 from dataclasses import dataclass
 from typing import Dict, Any, Iterable, List
-import ipaddress
 
 # -----------------------------
 # Alias de claves aceptadas
 # -----------------------------
 KEY_ALIASES: Dict[str, list[str]] = {
-    "ip_address": ["ip_address", "IP Address"],
     "country": ["country", "Country"],
     "asn": ["asn", "ASN"],
     "user_agent_string": ["user_agent_string", "User Agent String"],
@@ -14,7 +12,6 @@ KEY_ALIASES: Dict[str, list[str]] = {
     "os_name_and_version": ["os_name_and_version", "OS Name and Version"],
     "device_type": ["device_type", "Device Type"],
     "login_successful": ["login_successful", "Login Successful"],
-    "is_attack_ip": ["is_attack_ip", "Is Attack IP"],
 }
 
 
@@ -27,15 +24,6 @@ def _get_required(data: Dict[str, Any], canon_key: str):
 
 
 # --- helpers de validación estricta ---
-def _parse_ip(v) -> int:
-    if isinstance(v, int):
-        return v
-    try:
-        return int(ipaddress.ip_address(str(v)))
-    except Exception as e:
-        raise ValueError(f"IP inválida: {v}") from e
-
-
 def _parse_str(v, key: str) -> str:
     if v is None:
         raise ValueError(f"'{key}' no puede ser None")
@@ -70,7 +58,6 @@ def _parse_bool_strict(v, key: str) -> bool:
 
 @dataclass
 class LogEntry:
-    ip_address: str | int
     country: str
     asn: int
     user_agent_string: str
@@ -81,7 +68,6 @@ class LogEntry:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "LogEntry":
-        ip_addr = _parse_ip(_get_required(data, "ip_address"))
         country = _parse_str(_get_required(data, "country"), "country")
         asn = _parse_int(_get_required(data, "asn"), "asn")
         ua = _parse_str(_get_required(data, "user_agent_string"), "user_agent_string")
@@ -91,7 +77,6 @@ class LogEntry:
         login_ok = _parse_bool_strict(_get_required(data, "login_successful"), "login_successful")
 
         return cls(
-            ip_address=ip_addr,
             country=country,
             asn=asn,
             user_agent_string=ua,
@@ -128,7 +113,6 @@ class LogEntry:
     def to_dict(self) -> Dict[str, Any]:
         # Exporta en snake_case, con enteros/códigos para booleans (1/0)
         return {
-            "ip_address": _parse_ip(self.ip_address),
             "country": self.country,
             "asn": self.asn,
             "user_agent_string": self.user_agent_string,

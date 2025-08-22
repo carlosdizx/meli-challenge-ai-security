@@ -30,12 +30,8 @@ def load_dataset():
 
     # 4.Limpiar el dataset
     df.drop(columns=['index', 'Round-Trip Time [ms]', "Login Timestamp", "Region", "City", "Is Account Takeover",
-                     "User ID"],
+                     "User ID", 'IP Address'],
             inplace=True)
-
-    # 5. Transformación de ips a enteros
-
-    df['IP Address'] = df['IP Address'].apply(lambda x: int(ipaddress.ip_address(x)))
 
     print(f"Dataset descargado exitosamente en {path}")
 

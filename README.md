@@ -12,6 +12,9 @@ en marcha un entorno de desarrollo robusto, listo para la acción.
     - macOS/Linux: `python3 --version` o `python --version`
 - Docker (opcional) si prefieres ejecutar todo el sistema de forma integrada y aislada.
 
+
+### Nota: Recuerda ejecutar los comandos en la terminal y en la raiz del proyecto. 
+
 ## 1) 📦 Crear el entorno virtual
 
 Un entorno virtual aísla las dependencias de tu proyecto, evitando conflictos con otras instalaciones 
@@ -105,11 +108,12 @@ python -m scripts.train_models
 Aquí ya puedes probar tus aplicaciones. Tienes varias opciones para ejecutar los distintos componentes
 del proyecto, según tu preferencia:
 
-- Ejecutar de forma individual el API, el cliente y los agentes. Puedes levantar cada aplicación de forma separada, para pruebas más controladas.
+- Ejecutar de forma individual el API, el cliente y los agentes. Puedes levantar cada aplicación de forma separada,
+para pruebas más controladas y ajustes que desees aplicar.
 
 - Ejecutar todo el sistema de forma dockerizada, ya sea:
 
-  - Todo en un único contenedor, si prefieres una ejecución integrada.
+  - Todo en un único contenedor y una instancia, si prefieres una ejecución integrada.
   - Por contenedor separando cada app en una instancia. 
 
 Esto te permite flexibilidad para realizar pruebas según el entorno o flujo que necesites validar.
@@ -136,7 +140,7 @@ docker run -p 8501:8501 -p 4200:4200 rba-anomaly-dashboard
 ### 2) Docker compose para Streamlit + FastAPI (Parecido a ejecutar cada app en instancias)
 
 Esto ejecuta el archivo `docker-compose.yml` para iniciar un contenedor con FastAPI y Streamlit
-**_en un solo contenedor y dos máquinas_**.
+**_en un solo contenedor y dos instancias_**.
 
 ```bash
 docker-compose build

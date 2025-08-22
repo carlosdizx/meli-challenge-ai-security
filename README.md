@@ -81,19 +81,12 @@ Para que la aplicación se conecte con las herramientas y servicios necesarios,
 necesitas configurar tus claves y variables. Crea el archivo `.streamlit/secrets.toml`
 con la siguiente información, sustituyendo `<tu_api_key>` con tu clave de API de Gemini.
 
-Copia el nombre del siguiente archivo y créalo:
+Ejecuta el siguiente script para crear el archivo:
 ```bash
 python -m scripts.setup_secrets
 ```
+Reemplaza `<tu_api_key>` con tu clave de API de Gemini.
 
-Copia el siguiente contenido en el archivo creado y reemplaza `<tu_api_key>` con tu clave de API de Gemini y los valores
-que desees.
-
-```toml
-DATASET_CHUNK_SIZE = "1000000"     # Tamaño del chunk para el dataset
-GEMINI_API_KEY = "<tu_api_key>"
-GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
-```
 
 ## 7) 🦾 Ejecutar scripts para descargar y preprocesar los datos
 

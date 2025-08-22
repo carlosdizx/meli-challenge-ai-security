@@ -86,8 +86,8 @@ necesitas configurar tus claves y variables. Crea el archivo `.streamlit/secrets
 con la siguiente información, sustituyendo `<tu_api_key>` con tu clave de API de Gemini.
 
 Copia el nombre del siguiente archivo y créalo:
-```
-.streamlit/secrets.toml
+```bash
+python -m scripts.setup_secrets
 ```
 
 Copia el siguiente contenido en el archivo creado y reemplaza `<tu_api_key>` con tu clave de API de Gemini y los valores

@@ -78,7 +78,6 @@ class LogEntry:
     os_name_and_version: str
     device_type: str
     login_successful: bool
-    is_attack_ip: bool
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "LogEntry":
@@ -90,7 +89,6 @@ class LogEntry:
         os_ = _parse_str(_get_required(data, "os_name_and_version"), "os_name_and_version")
         device = _parse_str(_get_required(data, "device_type"), "device_type")
         login_ok = _parse_bool_strict(_get_required(data, "login_successful"), "login_successful")
-        atk_ip = _parse_bool_strict(_get_required(data, "is_attack_ip"), "is_attack_ip")
 
         return cls(
             ip_address=ip_addr,
@@ -101,7 +99,6 @@ class LogEntry:
             os_name_and_version=os_,
             device_type=device,
             login_successful=login_ok,
-            is_attack_ip=atk_ip,
         )
 
     @classmethod
@@ -139,5 +136,4 @@ class LogEntry:
             "os_name_and_version": self.os_name_and_version,
             "device_type": self.device_type,
             "login_successful": 1 if self.login_successful else 0,
-            "is_attack_ip": 1 if self.is_attack_ip else 0,
         }

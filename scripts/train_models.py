@@ -16,11 +16,11 @@ def save_feature_columns(cols):
 
 
 def preprocess_data(df: pd.DataFrame):
-    cols_to_drop = ['Is Attack IP', 'Is Account Takeover', 'User ID', 'IP Address']
+    cols_to_drop = ['Is Attack IP']
     cols_to_drop = [c for c in cols_to_drop if c in df.columns]
 
     features = df.drop(columns=cols_to_drop, axis=1)
-    target = df['Is Account Takeover']
+    target = df['Is Attack IP']
 
     X_train, X_test, y_train, y_test = train_test_split(
         features, target, test_size=0.2, random_state=42, stratify=target

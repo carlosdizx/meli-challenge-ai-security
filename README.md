@@ -155,7 +155,9 @@ Luego ejecuta
 docker-compose up -d
 ```
 
-## 8) 🌐 Ejecutar la API (individual)
+## Opción 2: Ejecutar de manera individual (recomendada para pruebas y desarrollo)
+
+### 1) 🌐 Ejecutar la API (individual)
 
 Con el entorno virtual activo, puedes lanzar el servidor de la API.
 Esta es la parte central del proyecto, que manejará la lógica de la aplicación.
@@ -164,7 +166,7 @@ Esta es la parte central del proyecto, que manejará la lógica de la aplicació
 uvicorn app.api:app --reload --port 4200
 ```
 
-## 9) 🖥️ Ejecutar la aplicación cliente (individual)
+### 2) 🖥️ Ejecutar la aplicación cliente (individual)
 
 Abre una nueva ventana de tu terminal, asegúrate de que el entorno virtual esté activo y ejecuta el cliente de Streamlit.
 Aquí es donde verás la interfaz de usuario.
@@ -174,7 +176,7 @@ streamlit run app/client.py
 ```
 Nota: Es crucial que utilices el entorno virtual para este comando.
 
-## 10) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes (individual)
+### 3) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes (individual)
 
 Si quieres explorar el flujo de agentes de la IA, ejecuta este comando. Te permitirá visualizar cómo está construido el
 grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.

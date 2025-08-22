@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def main():
-    base_dir = Path(__file__).parent
+    base_dir = Path(__file__).parent.parent
     secrets_dir = base_dir / ".streamlit"
     secrets_file = secrets_dir / "secrets.toml"
     example_file = secrets_dir / "secrets.example.toml"

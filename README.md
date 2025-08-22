@@ -79,7 +79,27 @@ Estas se encuentran listadas en el archivo requirements.txt.
 pip install -r requirements.txt
 ```
 
-## 6) 🦾 Ejecutar scripts para descargar y preprocesar los datos
+## 6) 🔑 Configurar variables de entorno
+
+Para que la aplicación se conecte con las herramientas y servicios necesarios,
+necesitas configurar tus claves y variables. Crea el archivo `.streamlit/secrets.toml`
+con la siguiente información, sustituyendo `<tu_api_key>` con tu clave de API de Gemini.
+
+Copia el nombre del siguiente archivo y créalo:
+```
+.streamlit/secrets.toml
+```
+
+Copia el siguiente contenido en el archivo creado y reemplaza `<tu_api_key>` con tu clave de API de Gemini y los valores
+que desees.
+
+```toml
+DATASET_CHUNK_SIZE = "1000000"     # Tamaño del chunk para el dataset
+GEMINI_API_KEY = "<tu_api_key>"
+GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
+```
+
+## 7) 🦾 Ejecutar scripts para descargar y preprocesar los datos
 
 Ejecuta estos scripts para preparar el proyecto. El proceso descarga y limpia el conjunto de datos,
 y luego entrena los modelos de IA, dejándolos listos para ser utilizados por la API.
@@ -88,18 +108,6 @@ y luego entrena los modelos de IA, dejándolos listos para ser utilizados por la
 ```bash
 python -m scripts.load_dataset
 python -m scripts.train_models
-```
-
-## 7) 🔑 Configurar variables de entorno
-
-Para que la aplicación se conecte con las herramientas y servicios necesarios,
-necesitas configurar tus claves y variables. Crea el archivo `.streamlit/secrets.toml`
-con la siguiente información, sustituyendo `<tu_api_key>` con tu clave de API de Gemini.
-
-```toml
-DATASET_CHUNK_SIZE = "1000000"     # Tamaño del chunk para el dataset
-GEMINI_API_KEY = "<tu_api_key>"
-GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
 ```
 
 ## 8) 🌐 Ejecutar la API

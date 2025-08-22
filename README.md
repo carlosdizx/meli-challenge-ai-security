@@ -1,4 +1,4 @@
-# meli-thecnical-test-security-and-ai
+# Reto técnico MeLi - Proposta Desafio - Desenvolvedor - IA - ES
 
 Guía para crear y usar un entorno virtual (.venv) y configurar el intérprete.
 
@@ -58,8 +58,34 @@ python -m pip install --upgrade pip
 
 ## 5) Instalar dependencias
 
-Si tienes un archivo `requirements.txt` en la raíz del proyecto:
+Instala todas las librerías necesarias para ejecutar scripts, entrenar modelos y ejecutar las aplicaciones.
 
 ```bash
 pip install -r requirements.txt
+```
+
+## 6) Ejecutar scripts para descargar y preprocesar los datos
+
+```bash
+python -m scripts.load_dataset
+python -m scripts.train_models
+```
+Esto descarga, limpia los datos y entrena los modelos, dejándolos listos para usar en la API.
+
+## 7) Configurar variables de entorno
+
+Crea el archivo `.streamlit/secrets.toml` con los valores necesarios:
+
+```toml
+DATASET_CHUNK_SIZE = "1000000"
+GEMINI_API_KEY = "<tu_api_key>"
+GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
+```
+
+## 8) Ejecutar la API
+
+Con el entorno virtual activo, inicia el servidor de FastAPI:
+
+```bash
+uvicorn app.api:app --reload --port 4200
 ```

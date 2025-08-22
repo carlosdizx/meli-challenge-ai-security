@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build: .
+    container_name: fastapi
+    ports:
+      - "4200:4200"
+    networks:
+      - rba_network
+    command: uvicorn app.api:app --host 0.0.0.0 --port 4200 --reload
+    environment:
+      - UVICORN_CMD=uvicorn app.api:app --host 0.0.0.0 --port 4200 --reload
+
+  streamlit:
+    build: .
+    container_name: streamlit
+    ports:
+      - "8501:8501"
+    networks:
+      - rba_network
+    command: streamlit run app/client.py --server.port=8501 --server.address=0.0.0.0
+    depends_on:
+      - fastapi
+
+networks:
+  rba_network:
+    driver: bridge

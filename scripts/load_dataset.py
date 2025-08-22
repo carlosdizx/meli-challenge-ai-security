@@ -44,10 +44,17 @@ def load_dataset():
 print(f"Descargando dataset, esto puede tardar unos minutos...")
 df = load_dataset()
 
-for i in range(5):
-    start_idx = i * 10000
-    end_idx = start_idx + 10000
-    chunk = df.iloc[start_idx:end_idx]
-    export_json(chunk, f"chunk_{i + 1}.json")
+for i in range(6):
+    if i == 5:
+        chunk = df[df['Is Attack IP'] == False].iloc[:10000]
+    elif i % 2 == 0:
+        chunk = df[df['Is Attack IP'] == True].iloc[i * 5000:(i + 1) * 5000]
+    else:
+        start_idx = i * 10000
+        end_idx = start_idx + 10000
+        chunk = df.iloc[start_idx:end_idx]
+
+    if not chunk.empty:
+        export_json(chunk, f"chunk_{i + 1}.json")
 
 export_csv(df)

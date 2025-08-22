@@ -24,7 +24,9 @@ en marcha un entorno de desarrollo robusto, listo para la acción.
     - macOS/Linux: `python3 --version` o `python --version`
 - Docker (opcional) si prefieres ejecutar todo el sistema de forma integrada y aislada.
 
-### Nota: Recuerda ejecutar los comandos en la terminal y en la raiz del proyecto.
+
+⚠️ Nota: Recuerda ejecutar los comandos en la terminal y en la raiz del proyecto.
+No uses la terminal (terminal markdown) de este cuaderno⚠️
 
 ## 1) 📦 Crear el entorno virtual
 
@@ -129,6 +131,11 @@ del proyecto, según tu preferencia:
     - Por contenedor separando cada app en una instancia.
 
 Esto te permite flexibilidad para realizar pruebas según el entorno o flujo que necesites validar.
+
+⚠️ Independientemente de la opción que elijas, es importante que utilices un entorno virtual para ejecutar los comandos.
+
+⚠️ Además, si decides probar dos opciones al mismo tiempo, no deben ejecutarse simultáneamente, 
+ya que los puertos son los mismos y se generará un conflicto.
 
 ## 🐳 Opción 1: Dockerización (recomendada para pruebas y producción)
 

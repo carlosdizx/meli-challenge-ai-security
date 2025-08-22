@@ -121,6 +121,40 @@ del proyecto, según tu preferencia:
 
 Esto te permite flexibilidad para realizar pruebas según el entorno o flujo que necesites validar.
 
+## 🐳 Opción 1: Dockerización (recomendada para pruebas y producción)
+
+Para ejecutar las aplicaciones dentro de contenedores Docker, hay dos maneras de hacerlo:
+
+### 1) Dockerfile para Streamlit + FastAPI (Parecido a ejecutar todo en una sola máquina)
+
+Esto ejecuta el archivo `Dockerfile` con la configuración de `supervisord.conf`
+para iniciar tanto FastAPI como Streamlit **_en un solo contenedor y una sola máquina_**.
+
+```bash
+docker build -t rba-anomaly-dashboard .
+```
+
+Luego ejecuta
+
+```bash
+docker run -p 8501:8501 -p 4200:4200 rba-anomaly-dashboard
+```
+
+### 2) Docker compose para Streamlit + FastAPI (Parecido a ejecutar cada app en instancias)
+
+Esto ejecuta el archivo `docker-compose.yml` para iniciar un contenedor con FastAPI y Streamlit
+**_en un solo contenedor y dos máquinas_**.
+
+```bash
+docker-compose build
+```
+
+Luego ejecuta
+
+```bash
+docker-compose up -d
+```
+
 ## 8) 🌐 Ejecutar la API (individual)
 
 Con el entorno virtual activo, puedes lanzar el servidor de la API.
@@ -147,38 +181,4 @@ grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.
 
 ```bash
 langgraph dev
-```
-
-## 11) (Opcional) 🐳 Dockerización
-
-Para ejecutar las aplicaciones dentro de contenedores Docker, hay dos maneras de hacerlo:
-
-### 11.1) Dockerfile para Streamlit + FastAPI (Parecido a ejecutar todo en una sola máquina)
-
-Esto ejecuta el archivo `Dockerfile` con la configuración de `supervisord.conf`
-para iniciar tanto FastAPI como Streamlit **_en un solo contenedor y una sola máquina_**.
-
-```bash
-docker build -t rba-anomaly-dashboard .
-```
-
-Luego ejecuta
-
-```bash
-docker run -p 8501:8501 -p 4200:4200 rba-anomaly-dashboard
-```
-
-### 11.2) Docker compose para Streamlit + FastAPI (Parecido a ejecutar cada app en una máquina)
-
-Esto ejecuta el archivo `docker-compose.yml` para iniciar un contenedor con FastAPI y Streamlit
-**_en un solo contenedor y dos máquinas_**.
-
-```bash
-docker-compose build
-```
-
-Luego ejecuta
-
-```bash
-docker-compose up -d
 ```

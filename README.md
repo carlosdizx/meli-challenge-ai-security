@@ -1,8 +1,9 @@
-# Reto técnico MeLi - Proposta Desafio - Desenvolvedor - IA - ES
+# Reto técnico MeLi: Proposta Desafio - Desenvolvedor - IA
 
-Guía para crear y usar un entorno virtual (.venv) y configurar el intérprete.
+Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. 
+Sigue estos pasos para poner en marcha un entorno de desarrollo robusto, listo para la acción.
 
-## Requisitos
+## 🛠️ Requisitos
 
 - Windows, macOS o Linux
 - Python 3.12 (recomendado) o compatible
@@ -10,7 +11,14 @@ Guía para crear y usar un entorno virtual (.venv) y configurar el intérprete.
     - Windows: `py --version` o `python --version`
     - macOS/Linux: `python3 --version` o `python --version`
 
-## 1) Crear el entorno virtual
+Para verificar la versión de Python instalada, abre tu terminal y ejecuta
+uno de los siguientes comandos:
+- Windows: py --version o python --version 
+- macOS/Linux: python3 --version o python --version
+
+## 1) 📦 Crear el entorno virtual
+Un entorno virtual aísla las dependencias de tu proyecto, evitando conflictos con otras instalaciones 
+de Python. Es una práctica esencial para un desarrollo limpio.
 
 En la raíz del proyecto, ejecuta:
 
@@ -19,7 +27,10 @@ En la raíz del proyecto, ejecuta:
 python -m venv .venv
 ```
 
-## 2) Activar el entorno virtual
+## 2) ▶️ Activar el entorno virtual
+
+Activar el entorno te permitirá usar las librerías específicas del proyecto.
+El comando varía según tu sistema operativo y el shell que uses:
 
 - Windows (PowerShell):
   ```powershell
@@ -38,7 +49,8 @@ python -m venv .venv
   source .venv/bin/activate.fish
   ```
 
-## 3) Verificar la versión de Python del entorno
+## 3) 🐍 Verificar la versión de Python del entorno
+Una vez activado el entorno, confirma que estás utilizando el intérprete correcto:
 
 ```bash
 # Windows
@@ -50,31 +62,35 @@ python -m venv .venv
 .venv/bin/python --version
 ```
 
-## 4) Actualizar pip
+## 4) ⚙️ Actualizar pip
 
 ```bash
 python -m pip install --upgrade pip
 ```
 
-## 5) Instalar dependencias
-
-Instala todas las librerías necesarias para ejecutar scripts, entrenar modelos y ejecutar las aplicaciones.
+## 5) ✨ Instalar dependencias
+Con tu entorno activo y pip actualizado, instala todas las librerías necesarias para que el proyecto funcione correctamente.
+Estas se encuentran listadas en el archivo requirements.txt.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 6) Ejecutar scripts para descargar y preprocesar los datos
+## 6) 🦾 Ejecutar scripts para descargar y preprocesar los datos
+Ejecuta estos scripts para preparar el proyecto. El proceso descarga y limpia el conjunto de datos,
+y luego entrena los modelos de IA, dejándolos listos para ser utilizados por la API.
+
 
 ```bash
 python -m scripts.load_dataset
 python -m scripts.train_models
 ```
-Esto descarga, limpia los datos y entrena los modelos, dejándolos listos para usar en la API.
 
-## 7) Configurar variables de entorno
+## 7) 🔑 Configurar variables de entorno
 
-Crea el archivo `.streamlit/secrets.toml` con los valores necesarios:
+Para que la aplicación se conecte con las herramientas y servicios necesarios,
+necesitas configurar tus claves y variables. Crea el archivo `.streamlit/secrets.toml`
+con la siguiente información, sustituyendo `<tu_api_key>` con tu clave de API de Gemini.
 
 ```toml
 DATASET_CHUNK_SIZE = "1000000"     # Tamaño del chunk para el dataset
@@ -82,25 +98,27 @@ GEMINI_API_KEY = "<tu_api_key>"
 GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
 ```
 
-## 8) Ejecutar la API
-
-Con el entorno virtual activo, inicia el servidor de FastAPI:
+## 8) 🌐 Ejecutar la API
+Con el entorno virtual activo, puedes lanzar el servidor de la API.
+Esta es la parte central del proyecto, que manejará la lógica de la aplicación.
 
 ```bash
 uvicorn app.api:app --reload --port 4200
 ```
 
-## 9) Ejecutar la aplicación cliente
+## 9) 🖥️ Ejecutar la aplicación cliente
 
-En otra ventana de tu terminal, ejecuta:
+Abre una nueva ventana de tu terminal, asegúrate de que el entorno virtual esté activo y ejecuta el cliente de Streamlit.
+Aquí es donde verás la interfaz de usuario.
 
 ```bash
 streamlit run app/client.py
 ```
-Nota: Recuerda usar el entorno virtual para ejecutar la app de streamlit.
+Nota: Es crucial que utilices el entorno virtual para este comando.
 
-## 10) (Opcional) Ejecutar langgraph para analizarlo el flujo de agentes
-Aquí podrás ver como está construido el grafo de agentes, qué datos necesitan para funcionar y como se comunican entre ellos.
+## 10) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes
+Si quieres explorar el flujo de agentes de la IA, ejecuta este comando. Te permitirá visualizar cómo está construido el
+grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.
 
 ```bash
 langgraph dev

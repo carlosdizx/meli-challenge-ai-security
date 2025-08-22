@@ -15,6 +15,7 @@ def main():
         with open(example_file, 'w', encoding='utf-8') as f:
             f.write('DATASET_CHUNK_SIZE = "1000000"  \n')
             f.write('GEMINI_API_KEY = "<tu_api_key>"\n')
+            f.write('GEMINI_MODEL = "gemini-2.5-flash"\n')
         print(f"✅ Se ha creado el archivo de ejemplo: {example_file}")
 
     if secrets_file.exists():

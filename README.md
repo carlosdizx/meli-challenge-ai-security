@@ -6,7 +6,7 @@ Sigue estos pasos para poner en marcha un entorno de desarrollo robusto, listo p
 ## 🛠️ Requisitos
 
 - Windows, macOS o Linux
-- Python 3.12 (recomendado) o compatible
+- Python 3.11 (recomendado) o compatible
 - Verifica tu versión:
     - Windows: `py --version` o `python --version`
     - macOS/Linux: `python3 --version` o `python --version`
@@ -17,6 +17,7 @@ uno de los siguientes comandos:
 - macOS/Linux: python3 --version o python --version
 
 ## 1) 📦 Crear el entorno virtual
+
 Un entorno virtual aísla las dependencias de tu proyecto, evitando conflictos con otras instalaciones 
 de Python. Es una práctica esencial para un desarrollo limpio.
 
@@ -50,6 +51,7 @@ El comando varía según tu sistema operativo y el shell que uses:
   ```
 
 ## 3) 🐍 Verificar la versión de Python del entorno
+
 Una vez activado el entorno, confirma que estás utilizando el intérprete correcto:
 
 ```bash
@@ -69,6 +71,7 @@ python -m pip install --upgrade pip
 ```
 
 ## 5) ✨ Instalar dependencias
+
 Con tu entorno activo y pip actualizado, instala todas las librerías necesarias para que el proyecto funcione correctamente.
 Estas se encuentran listadas en el archivo requirements.txt.
 
@@ -77,6 +80,7 @@ pip install -r requirements.txt
 ```
 
 ## 6) 🦾 Ejecutar scripts para descargar y preprocesar los datos
+
 Ejecuta estos scripts para preparar el proyecto. El proceso descarga y limpia el conjunto de datos,
 y luego entrena los modelos de IA, dejándolos listos para ser utilizados por la API.
 
@@ -99,6 +103,7 @@ GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
 ```
 
 ## 8) 🌐 Ejecutar la API
+
 Con el entorno virtual activo, puedes lanzar el servidor de la API.
 Esta es la parte central del proyecto, que manejará la lógica de la aplicación.
 
@@ -117,6 +122,7 @@ streamlit run app/client.py
 Nota: Es crucial que utilices el entorno virtual para este comando.
 
 ## 10) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes
+
 Si quieres explorar el flujo de agentes de la IA, ejecuta este comando. Te permitirá visualizar cómo está construido el
 grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.
 
@@ -124,3 +130,36 @@ grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.
 langgraph dev
 ```
 
+## 11) (Opcional) 🐳 Dockerización
+
+Para ejecutar las aplicaciones dentro de contenedores Docker, hay dos maneras de hacerlo:
+
+### 11.1) Dockerfile para Streamlit + FastAPI (Parecido a ejecutar todo en una sola máquina)
+
+Esto ejecuta el archivo `Dockerfile` con la configuración de `supervisord.conf`
+para iniciar tanto FastAPI como Streamlit **_en un solo contenedor y una sola máquina_**.
+
+```bash
+docker build -t rba-anomaly-dashboard .
+```
+
+Luego ejecuta
+
+```bash
+docker run -p 8501:8501 -p 4200:4200 rba-anomaly-dashboard
+```
+
+### 11.2) Docker compose para Streamlit + FastAPI (Parecido a ejecutar cada app en una máquina)
+
+Esto ejecuta el archivo `docker-compose.yml` para iniciar un contenedor con FastAPI y Streamlit
+**_en un solo contenedor y dos máquinas_**.
+
+```bash
+docker-compose build
+```
+
+Luego ejecuta
+
+```bash
+docker-compose up -d
+```

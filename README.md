@@ -89,3 +89,5 @@ Con el entorno virtual activo, inicia el servidor de FastAPI:
 ```bash
 uvicorn app.api:app --reload --port 4200
 ```
+
+## 9) Ejecutar la aplicación cliente

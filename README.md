@@ -38,12 +38,6 @@ python -m venv .venv
   source .venv/bin/activate.fish
   ```
 
-Para desactivar en cualquier momento:
-
-```bash
-deactivate
-```
-
 ## 3) Verificar la versión de Python del entorno
 
 ```bash

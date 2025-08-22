@@ -1,7 +1,7 @@
 # Reto técnico MeLi: Proposta Desafio - Desenvolvedor - IA
 
-Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. 
-Sigue estos pasos para poner en marcha un entorno de desarrollo robusto, listo para la acción.
+Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. Sigue estos pasos para poner
+en marcha un entorno de desarrollo robusto, listo para la acción.
 
 ## 🛠️ Requisitos
 
@@ -10,11 +10,7 @@ Sigue estos pasos para poner en marcha un entorno de desarrollo robusto, listo p
 - Verifica tu versión:
     - Windows: `py --version` o `python --version`
     - macOS/Linux: `python3 --version` o `python --version`
-
-Para verificar la versión de Python instalada, abre tu terminal y ejecuta
-uno de los siguientes comandos:
-- Windows: py --version o python --version 
-- macOS/Linux: python3 --version o python --version
+- Docker (opcional) si prefieres ejecutar todo el sistema de forma integrada y aislada.
 
 ## 1) 📦 Crear el entorno virtual
 
@@ -110,7 +106,22 @@ python -m scripts.load_dataset
 python -m scripts.train_models
 ```
 
-## 8) 🌐 Ejecutar la API
+---
+# Probar aplicaciones
+
+Aquí ya puedes probar tus aplicaciones. Tienes varias opciones para ejecutar los distintos componentes
+del proyecto, según tu preferencia:
+
+- Ejecutar de forma individual el API, el cliente y los agentes. Puedes levantar cada aplicación de forma separada, para pruebas más controladas.
+
+- Ejecutar todo el sistema de forma dockerizada, ya sea:
+
+  - Todo en un único contenedor, si prefieres una ejecución integrada.
+  - Por contenedor separando cada app en una instancia. 
+
+Esto te permite flexibilidad para realizar pruebas según el entorno o flujo que necesites validar.
+
+## 8) 🌐 Ejecutar la API (individual)
 
 Con el entorno virtual activo, puedes lanzar el servidor de la API.
 Esta es la parte central del proyecto, que manejará la lógica de la aplicación.
@@ -119,7 +130,7 @@ Esta es la parte central del proyecto, que manejará la lógica de la aplicació
 uvicorn app.api:app --reload --port 4200
 ```
 
-## 9) 🖥️ Ejecutar la aplicación cliente
+## 9) 🖥️ Ejecutar la aplicación cliente (individual)
 
 Abre una nueva ventana de tu terminal, asegúrate de que el entorno virtual esté activo y ejecuta el cliente de Streamlit.
 Aquí es donde verás la interfaz de usuario.
@@ -129,7 +140,7 @@ streamlit run app/client.py
 ```
 Nota: Es crucial que utilices el entorno virtual para este comando.
 
-## 10) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes
+## 10) (Opcional) 🧠 Ejecutar langgraph para analizarlo el flujo de agentes (individual)
 
 Si quieres explorar el flujo de agentes de la IA, ejecuta este comando. Te permitirá visualizar cómo está construido el
 grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.

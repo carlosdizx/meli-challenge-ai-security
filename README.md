@@ -115,7 +115,7 @@ python -m scripts.train_models
 
 ---
 
-# Probar aplicaciones
+# Ejecutar aplicaciones
 
 Aquí ya puedes probar tus aplicaciones. Tienes varias opciones para ejecutar los distintos componentes
 del proyecto, según tu preferencia:

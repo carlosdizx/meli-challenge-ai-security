@@ -77,7 +77,7 @@ Esto descarga, limpia los datos y entrena los modelos, dejándolos listos para u
 Crea el archivo `.streamlit/secrets.toml` con los valores necesarios:
 
 ```toml
-DATASET_CHUNK_SIZE = "1000000"
+DATASET_CHUNK_SIZE = "1000000"     # Tamaño del chunk para el dataset
 GEMINI_API_KEY = "<tu_api_key>"
 GEMINI_MODEL = "gemini-2.5-flash"  # ejemplo
 ```
@@ -91,3 +91,18 @@ uvicorn app.api:app --reload --port 4200
 ```
 
 ## 9) Ejecutar la aplicación cliente
+
+En otra ventana de tu terminal, ejecuta:
+
+```bash
+streamlit run app/client.py
+```
+Nota: Recuerda usar el entorno virtual para ejecutar la app de streamlit.
+
+## 10) (Opcional) Ejecutar langgraph para analizarlo el flujo de agentes
+Aquí podrás ver como está construido el grafo de agentes, qué datos necesitan para funcionar y como se comunican entre ellos.
+
+```bash
+langgraph dev
+```
+

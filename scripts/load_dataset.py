@@ -29,7 +29,7 @@ def load_dataset():
     df = pd.concat(chunks, axis=0)
 
     # 4.Limpiar el dataset
-    df.drop(columns=['index', 'Round-Trip Time [ms]', "Login Timestamp", "Region", "City"],
+    df.drop(columns=['index', 'Round-Trip Time [ms]', "Login Timestamp", "Region", "City", "Is Account Takeover"],
             inplace=True)
 
     # 5. Transformación de ips a enteros

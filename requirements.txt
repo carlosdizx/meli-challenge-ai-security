@@ -16,3 +16,4 @@ langgraph-cli[inmem]
 streamlit
 requests
 google-generativeai
+google

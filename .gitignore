@@ -10,6 +10,7 @@ __pycache__/
 
 # Output
 output/
+data/
 
 # Streamlit
 .streamlit/secrets.toml

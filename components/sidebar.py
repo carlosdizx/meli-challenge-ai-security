@@ -4,14 +4,12 @@ import streamlit as st
 
 @dataclass
 class SidebarConfig:
-    base_url: str
     limit: int
 
 
-def render_sidebar(default_base_url: str = "http://localhost:4200") -> SidebarConfig:
+def render_sidebar() -> SidebarConfig:
     st.sidebar.title("RBA Anomaly — Panel de control")
 
-    base_url = st.sidebar.text_input("API base URL", value=default_base_url).rstrip("/")
     limit = st.sidebar.slider("Máx. registros a enviar", min_value=1, max_value=2000, value=200, step=50)
 
     st.sidebar.divider()
@@ -30,4 +28,4 @@ def render_sidebar(default_base_url: str = "http://localhost:4200") -> SidebarCo
     </div>
     """, unsafe_allow_html=True)
 
-    return SidebarConfig(base_url=base_url, limit=limit)
+    return SidebarConfig(limit=limit)

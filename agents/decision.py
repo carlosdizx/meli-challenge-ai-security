@@ -1,7 +1,16 @@
+import tomli
 from graph.pipeline_state import PipelineState
 from services.gemini_service import GeminiService
+from pathlib import Path
 
 client = GeminiService()
+
+secrets_path = Path(__file__).resolve().parents[1] / '.streamlit' / 'secrets.toml'
+
+with open(secrets_path, 'rb') as f:
+    secrets = tomli.load(f)
+
+llm = bool(secrets.get("USE_LLM"))
 
 
 def decide(state: PipelineState) -> PipelineState:
@@ -35,15 +44,20 @@ def decide(state: PipelineState) -> PipelineState:
         reasons.append("Sin anomalías ni flags activados")
 
     state["decision"] = decision
-    state["decision_reasons"] = reasons
 
-    prompt = f"""
-    **predictions**: {state["predictions"]}
-    **score**: {state["scores"]}
-    **decision**: {state["decision"]}
-    """
+    if llm:
+        print("Tengo que usar llm")
+        state["decision_reasons"] = reasons
 
-    response = client.get_response(prompt)
+        prompt = f"""
+            **predictions**: {state["predictions"]}
+            **score**: {state["scores"]}
+            **decision**: {state["decision"]}
+            """
+
+        response = client.get_response(prompt)
+    else:
+        response = ""
 
     state["decision_llm"] = response
     return state

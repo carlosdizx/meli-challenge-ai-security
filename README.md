@@ -366,3 +366,29 @@ grafo, qué datos se necesitan y cómo se comunican los agentes entre sí.
 ```bash
 langgraph dev
 ```
+
+---
+
+# Demostración del funcionamiento de las apps
+
+
+### Prueba validación del API
+![img1](assets/img1.png)
+
+### Ejecución de detección de anomalías via API
+![img1](assets/img2.png)
+
+### Vista inicial del dashboard interactivo
+![img1](assets/img3.png)
+
+### Ingresando datos desde el clipboard
+![img1](assets/img4.png)
+
+### Respuesta generada por el LLM
+![img1](assets/img5.png)
+
+### Resultados obtenidos de la predicción del Modelo de ML 
+![img1](assets/img6.png)
+
+### Datos cargados en memoria, preparados para analizarse
+![img1](assets/img7.png)

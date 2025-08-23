@@ -20,23 +20,97 @@ en marcha un entorno de desarrollo robusto, listo para la acción.
 
 # Arquitectura del proyecto
 
-## Descripción de carpetas y archivos
+## Grafo de arquitectura
 
 ```mermaid
-graph TD
-    A[Streamlit UI] -->|Interacción usuario| B[FastAPI Endpoints]
-    B --> C[Routers]
-    C -->|analyze.py| D[Agentes: ingestion, transform, predict, decision, report]
-    D --> E[Servicios]
-    E -->|gemini_service.py| F[Gemini LLM]
-    E -->|model_service.py| G[Modelos ML]
-    D -->|transform.py| H[EDA & DTO]
-    H --> I[Data / Logs Limpios]
-    B -->|health.py| J[Healthcheck]
-    A --> K[Components: uploader, sidebar, results]
-    L[Config & Prompts] --> D
-    M[Scripts: load, export, train] --> E
+graph LR
+    ROOT[MeLi AI & Security]
+
+    subgraph STREAMLIT [.streamlit]
+        A1[secrets.toml]
+    end
+
+    subgraph AGENTS [agents]
+        B1[decision.py]
+        B2[ingestion.py]
+        B3[predict.py]
+        B4[report.py]
+        B5[transform.py]
+    end
+
+    subgraph APP [app]
+        C1[api.py]
+        C2[client.py]
+        C3[graph.py]
+    end
+
+    subgraph COMPONENTS [components]
+        D1[results.py]
+        D2[sidebar.py]
+        D3[uploader.py]
+    end
+
+    subgraph CONFIG [config]
+        E1[api_config.py]
+        E2[gemini_config.py]
+    end
+
+    subgraph DTO [dto]
+        F1[log_entry.py]
+    end
+
+    subgraph EDA [eda]
+        G1[risk_based_authentication.ipynb]
+    end
+
+    subgraph GRAPH [graph]
+        H1[pipeline_state.py]
+    end
+
+    subgraph PROMPTS [prompts]
+        I1[system_instruction_gemini.py]
+    end
+
+    subgraph ROUTERS [routers]
+        J1[analyze.py]
+        J2[health.py]
+    end
+
+    subgraph SCRIPTS [scripts]
+        K1[export_to_csv.py]
+        K2[export_to_json.py]
+        K3[load_dataset.py]
+        K4[setup_secrets.py]
+        K5[train_models.py]
+    end
+
+    subgraph SERVICES [services]
+        L1[gemini_service.py]
+        L2[model_service.py]
+    end
+
+    ROOT --> STREAMLIT
+    ROOT --> AGENTS
+    ROOT --> APP
+    ROOT --> COMPONENTS
+    ROOT --> CONFIG
+    ROOT --> DTO
+    ROOT --> EDA
+    ROOT --> GRAPH
+    ROOT --> PROMPTS
+    ROOT --> ROUTERS
+    ROOT --> SCRIPTS
+    ROOT --> SERVICES
+    ROOT --> N[.gitignore]
+    ROOT --> O[docker-compose.yml]
+    ROOT --> P[Dockerfile]
+    ROOT --> Q[langgraph.json]
+    ROOT --> R[README.md]
+    ROOT --> S[requirements.txt]
+    ROOT --> T[supervisord.conf]
 ```
+
+## Descripción de carpetas y archivos
 
 - **.streamlit/** → Configuración de Streamlit, incluye `secrets.toml`.
 - **agents/** → Agentes inteligentes:
@@ -85,11 +159,6 @@ graph TD
 - [README.md](README.md) Documentación del proyecto.
 - [requirements.txt](requirements.txt) Requisitos del proyecto.
 - [supervisord.conf](supervisord.conf) Supervisión de los servicios.
-
----
-
-Esta descripción junto con el diagrama permite entender **cómo se comunican los agentes, la interfaz y los modelos de IA
-**, y dónde se encuentran los scripts clave dentro del proyecto.
 
 
 ---

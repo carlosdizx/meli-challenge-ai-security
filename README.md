@@ -1,6 +1,7 @@
 # Reto técnico MeLi: Proposta Desafio - Desenvolvedor - IA
 
 ---
+
 # Stack - Technology
 
 [![Langgraph](https://img.shields.io/badge/langchain-1C3C3C)](https://www.langchain.com/langgraph)
@@ -15,6 +16,84 @@
 Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. Sigue estos pasos para poner
 en marcha un entorno de desarrollo robusto, listo para la acción.
 
+---
+
+# Arquitectura del proyecto
+
+## Descripción de carpetas y archivos
+
+```mermaid
+graph TD
+    A[Streamlit UI] -->|Interacción usuario| B[FastAPI Endpoints]
+    B --> C[Routers]
+    C -->|analyze.py| D[Agentes: ingestion, transform, predict, decision, report]
+    D --> E[Servicios]
+    E -->|gemini_service.py| F[Gemini LLM]
+    E -->|model_service.py| G[Modelos ML]
+    D -->|transform.py| H[EDA & DTO]
+    H --> I[Data / Logs Limpios]
+    B -->|health.py| J[Healthcheck]
+    A --> K[Components: uploader, sidebar, results]
+    L[Config & Prompts] --> D
+    M[Scripts: load, export, train] --> E
+```
+
+- **.streamlit/** → Configuración de Streamlit, incluye `secrets.toml`.
+- **agents/** → Agentes inteligentes:
+    - [decision.py](agents%2Fdecision.py) Agentes de decisión, tiene conexión a un LLM.
+    - [ingestion.py](agents%2Fingestion.py) Agentes carga y validación de los datos entrantes.
+    - [predict.py](agents%2Fpredict.py) Agentes de predicción, predice los datos entrantes con base en el modelo
+      entrenado.
+    - [report.py](agents%2Freport.py) Agentes de reporte, genera un reporte con base en los datos entrantes.
+    - [transform.py](agents%2Ftransform.py) Agentes de transformación, convierte los datos entrantes para poder ser
+      usados en el modelo.
+- **app/** → Código principal de la aplicación y endpoints FastAPI.
+    - [api.py](app%2Fapi.py) App FastApi
+    - [client.py](app%2Fclient.py) App Streamlit
+    - [graph.py](app%2Fgraph.py) App LangGraph
+- **components/** → Componentes reutilizables para la interfaz.
+    - [results.py](components%2Fresults.py) Componente de resultados, muestra decisiones sugeridas, gráfica y listas.
+    - [sidebar.py](components%2Fsidebar.py) Componente de sidebar, panel de control y about me.
+    - [uploader.py](components%2Fuploader.py) Componente de subida de datos, archivos json o texto del clipboard.
+- **config/** → Configuraciones generales y parámetros de modelos.
+    - [api_config.py](config%2Fapi_config.py) Configuración de FastAPI para usar en el app de streamlit.
+    - [gemini_config.py](config%2Fgemini_config.py) Configuración de Gemini para usar en los flujos.
+- **dto/** → Definición de estructuras de datos (Data Transfer Objects).
+    - [log_entry.py](dto%2Flog_entry.py) Mapea y valida los registros entrantes.
+- **eda/** → Scripts de análisis exploratorio y limpieza de datos.
+    - [risk_based_authentication.ipynb](eda%2Frisk_based_authentication.ipynb) Análisis exploratorio de datos.
+- **graph/** → Definición de recursos para LangGraph.
+  - [pipeline_state.py](graph%2Fpipeline_state.py) Configuración y estado del grafo de LangGraph.
+- **prompts/** → Prompts para IA utilizados por los agentes.
+  - [system_instruction_gemini.py](prompts%2Fsystem_instruction_gemini.py) Prompt para Gemini.
+- **routers/** → Endpoints API expuestos mediante FastAPI.
+  - [analyze.py](routers%2Fanalyze.py) Ruta para análisis de datos (entrada de datos).
+  - [health.py](routers%2Fhealth.py) Ruta para validar healthcheck del API.
+- **scripts/** → Scripts auxiliares (descarga de dataset, train, etc.).
+  - [export_to_csv.py](scripts%2Fexport_to_csv.py) Script para exportar datos a CSV (datos de entrenamiento).
+  - [export_to_json.py](scripts%2Fexport_to_json.py) Script para exportar datos a JSON (datos de prueba).
+  - [load_dataset.py](scripts%2Fload_dataset.py) Script para descargar datos y preprocesarlos.
+  - [setup_secrets.py](scripts%2Fsetup_secrets.py) Script para configurar variables de entorno.
+  - [train_models.py](scripts%2Ftrain_models.py) Script para entrenar modelos de ML.
+- **services/** → Lógica de negocio, modelos y predicción de anomalías con Gemini.
+  - [gemini_service.py](services%2Fgemini_service.py) Servicio para sugerencias con Gemini.
+  - [model_service.py](services%2Fmodel_service.py) Servicio para predicción de anomalías con ML.
+- [.gitignore](.gitignore) Ignora archivos que no deben ser versionados.
+- [docker-compose.yml](docker-compose.yml) Contenerización de la aplicación 1-2.
+- [Dockerfile](Dockerfile) Contenerización de la aplicación 1-1.
+- [langgraph.json](langgraph.json) Configuración de LangGraph para el flujo de agentes.
+- [README.md](README.md) Documentación del proyecto.
+- [requirements.txt](requirements.txt) Requisitos del proyecto.
+- [supervisord.conf](supervisord.conf) Supervisión de los servicios.
+
+---
+
+Esta descripción junto con el diagrama permite entender **cómo se comunican los agentes, la interfaz y los modelos de IA
+**, y dónde se encuentran los scripts clave dentro del proyecto.
+
+
+---
+
 ## 🛠️ Requisitos
 
 - Windows, macOS o Linux
@@ -23,7 +102,6 @@ en marcha un entorno de desarrollo robusto, listo para la acción.
     - Windows: `py --version` o `python --version`
     - macOS/Linux: `python3 --version` o `python --version`
 - Docker (opcional) si prefieres ejecutar todo el sistema de forma integrada y aislada.
-
 
 ⚠️ Nota: Recuerda ejecutar los comandos en la terminal y en la raiz del proyecto.
 No uses la terminal (terminal markdown) de este cuaderno⚠️
@@ -66,11 +144,13 @@ El comando varía según tu sistema operativo y el shell que uses:
 Una vez activado el entorno, confirma que estás utilizando el intérprete correcto:
 
 Windows
+
 ```bash
 .\.venv\Scripts\python.exe --version
 ```
 
 macOS/Linux
+
 ```bash
 .venv/bin/python --version
 ```
@@ -134,7 +214,7 @@ Esto te permite flexibilidad para realizar pruebas según el entorno o flujo que
 
 ⚠️ Independientemente de la opción que elijas, es importante que utilices un entorno virtual para ejecutar los comandos.
 
-⚠️ Además, si decides probar dos opciones al mismo tiempo, no deben ejecutarse simultáneamente, 
+⚠️ Además, si decides probar dos opciones al mismo tiempo, no deben ejecutarse simultáneamente,
 ya que los puertos son los mismos y se generará un conflicto.
 
 ## 🐳 Opción 1: Dockerización (recomendada para pruebas y producción)

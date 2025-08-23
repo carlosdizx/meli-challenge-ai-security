@@ -279,6 +279,9 @@ python -m scripts.load_dataset
 python -m scripts.train_models
 ```
 
+Nota: Esto genera varios archivos en la carpeta  `data` que pueden ser usados para
+probar la aplicación.
+
 ---
 
 # Ejecutar aplicaciones

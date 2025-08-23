@@ -25,6 +25,7 @@ class PipelineState(TypedDict, total=False):
     # ---- Agente: decisión ----
     decision: str
     decision_reasons: List[str]
+    decision_llm: str
 
     # ---- Agente: reporte ----
     report_df: Any

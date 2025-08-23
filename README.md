@@ -1,16 +1,16 @@
 # Reto técnico MeLi: Proposta Desafio - Desenvolvedor - IA
 
-## Stack
+---
+# Stack - Technology
 
-| Technology | Url Logo                                                                                                                                              |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Langgraph  | [![Langgraph](https://uploads-ssl.webflow.com/65ff950538088944d66126b3/662ef3209b872e92e41212f6_cookieicon.png)](https://www.langchain.com/langgraph) |
-| Langgraph  | [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg)](https://scikit-learn.org/)                                                |
-| Python     | [![Python](https://img.shields.io/badge/Python-14354C?style=flat&logo=python&logoColor=white)](https://www.python.org/)                               |
-| Streamlit  | [![Streamlit](https://docs.streamlit.io/logo.svg)](https://docs.streamlit.io/)                                                                        |
-| FastAPI    | [![FastApi](https://fastapi.tiangolo.com/img/icon-white.svg)](https://fastapi.tiangolo.com/)                                                          |
-| FastAPI    | [![Jupyter](https://img.shields.io/badge/jupyter-%23FA0F00.svg)](https://jupyter.org/)                                                                |
-| Docker     | [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg)](https://www.docker.com/)                                                               |
+[![Langgraph](https://img.shields.io/badge/langchain-1C3C3C)](https://www.langchain.com/langgraph)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg)](https://scikit-learn.org/)
+[![Python](https://img.shields.io/badge/Python-FFD43B)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B)](https://docs.streamlit.io/)
+[![FastApi](https://img.shields.io/badge/fastapi-109989)](https://fastapi.tiangolo.com/)
+[![Jupyter](https://img.shields.io/badge/jupyter-%23FA0F00.svg)](https://jupyter.org/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg)](https://www.docker.com/)
+[![Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2)](https://gemini.google.com/)
 
 Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. Sigue estos pasos para poner
 en marcha un entorno de desarrollo robusto, listo para la acción.

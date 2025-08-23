@@ -335,6 +335,8 @@ Luego ejecuta
 docker-compose up -d
 ```
 
+Nota: El API cambia ligeramente con esta opción en tu máquina local, el url es http://fastapi:4200/
+
 ## Opción 2: Ejecutar de manera individual (recomendada para pruebas y desarrollo)
 
 ### 1) 🌐 Ejecutar la API (individual)

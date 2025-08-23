@@ -13,9 +13,6 @@
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg)](https://www.docker.com/)
 [![Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2)](https://gemini.google.com/)
 
-Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. Sigue estos pasos para poner
-en marcha un entorno de desarrollo robusto, listo para la acción.
-
 ---
 
 # Arquitectura del proyecto
@@ -162,6 +159,24 @@ graph LR
 
 
 ---
+
+# Flujos de agentes
+
+```mermaid
+graph TD
+    A[__start__] --> B[Ingestión] --> |DTO: Validación, cargue Dataframe| C[Transformación]
+    C --> |Conversión factorial y mapeo de datos| D[Predicción]
+    D --> |Modelo ML| E[Decision]
+    E --> |Sugerencia de acción con ML y AI| F[Reporte]
+    F --> |Análisis de anomalías| G[__end__]
+    G --> A
+```
+----
+
+# Instalación del proyecto
+
+Esta guía te ayudará a configurar y ejecutar el proyecto de manera rápida y eficiente. Sigue estos pasos para poner
+en marcha un entorno de desarrollo robusto, listo para la acción.
 
 ## 🛠️ Requisitos
 

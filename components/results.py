@@ -8,12 +8,14 @@ def render_results(resp: Dict[str, Any]) -> None:
     total = report.get("total", 0)
     anomalies = report.get("anomalies", 0)
     action = resp.get("suggested_action", "unknown")
+    decision_llm = resp.get("decision_llm", "unknown")
 
     st.subheader("Resumen")
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     c1.metric("Registros", total)
     c2.metric("Anomalías", anomalies)
     c3.metric("Acción sugerida", action)
+    st.markdown(f"**Decision LLM:** {decision_llm}")
 
     by_country = report.get("by_country") or []
     by_device = report.get("by_device") or []

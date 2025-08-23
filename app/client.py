@@ -1,6 +1,7 @@
-import streamlit as st
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -9,7 +10,7 @@ if str(ROOT) not in sys.path:
 from components.sidebar import render_sidebar, SidebarConfig
 from components.uploader import render_uploader
 from components.results import render_results
-from config.api_config import call_analyze
+from config.graph_config import run_analyze_graph
 
 
 def main():
@@ -26,7 +27,7 @@ def main():
     if run:
         with st.spinner("Llamando a la API..."):
             try:
-                resp = call_analyze(cfg.base_url, payload)
+                resp = run_analyze_graph(payload)
                 render_results(resp)
             except Exception as e:
                 st.error(f"Error al llamar la API: {e}")

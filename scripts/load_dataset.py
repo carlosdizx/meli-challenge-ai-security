@@ -32,6 +32,8 @@ def load_dataset():
                      "User ID", 'IP Address'],
             inplace=True)
 
+    df.dropna(inplace=True)
+
     print(f"Dataset descargado exitosamente en {path}")
 
     return df

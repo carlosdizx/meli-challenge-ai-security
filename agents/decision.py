@@ -1,4 +1,7 @@
 from graph.pipeline_state import PipelineState
+from services.gemini_service import GeminiService
+
+client = GeminiService()
 
 
 def decide(state: PipelineState) -> PipelineState:
@@ -33,4 +36,14 @@ def decide(state: PipelineState) -> PipelineState:
 
     state["decision"] = decision
     state["decision_reasons"] = reasons
+
+    prompt = f"""
+    **predictions**: {state["predictions"]}
+    **score**: {state["scores"]}
+    **decision**: {state["decision"]}
+    """
+
+    response = client.get_response(prompt)
+
+    state["decision_llm"] = response
     return state

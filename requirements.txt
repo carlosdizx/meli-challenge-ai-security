@@ -6,14 +6,12 @@ seaborn
 matplotlib
 langgraph
 langchain
-langchain-tavily
 streamlit
 tomli
 fastapi
 uvicorn
 joblib
 numpy
-ijson
 langgraph-cli[inmem]
 streamlit
 requests

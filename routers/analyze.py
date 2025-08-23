@@ -23,4 +23,5 @@ def analyze(logs: list[LogEntry]):
         "suggested_action": response.get("decision"),
         "report": response.get("report_summary"),
         "reasons": response.get("decision_reasons"),
+        "decision_llm": response.get("decision_llm")
     }

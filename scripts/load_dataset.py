@@ -5,6 +5,7 @@ import tomli
 from pathlib import Path
 from scripts.export_to_csv import export_csv
 from scripts.export_to_json import export_json
+from sklearn.model_selection import train_test_split
 
 # 2. Leer secrets.toml
 secrets_path = Path(__file__).resolve().parents[1] / '.streamlit' / 'secrets.toml'
@@ -42,17 +43,16 @@ def load_dataset():
 print(f"Descargando dataset, esto puede tardar unos minutos...")
 df = load_dataset()
 
+train_df, temp_df = train_test_split(df, test_size=0.2, random_state=42)
+val_df, test_df = train_test_split(temp_df, test_size=0.5, random_state=42)
+
+export_csv(train_df, "dataset.csv", False)         # 80%
+export_csv(val_df, "validation_dataset.csv", True) # 10%
+
 for i in range(6):
-    if i == 5:
-        chunk = df[df['Is Attack IP'] == False].iloc[:10000]
-    elif i % 2 == 0:
-        chunk = df[df['Is Attack IP'] == True].iloc[i * 5000:(i + 1) * 5000]
-    else:
-        start_idx = i * 10000
-        end_idx = start_idx + 10000
-        chunk = df.iloc[start_idx:end_idx]
+    start_idx = i * 10000
+    end_idx = start_idx + 10000
+    chunk = test_df.iloc[start_idx:end_idx]
+    export_json(chunk, f"chunk_{i + 1}.json")
 
-    if not chunk.empty:
-        export_json(chunk, f"chunk_{i + 1}.json")
-
-export_csv(df)
+export_csv(test_df, "test_dataset.csv", False)     # 10

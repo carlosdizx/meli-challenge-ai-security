@@ -69,8 +69,12 @@ def save_model(model, model_name):
 try:
     # 1. Cargar los datos
     data_path = Path(__file__).parent.parent / 'data' / 'dataset.csv'
-    print(f"Cargando datos desde: {data_path}")
+    validation_path = Path(__file__).parent.parent / 'data' / 'validation_dataset.csv'
+    print(f"Cargando datos de entrenamiento: {data_path}")
+    print(f"Cargando datos de validación: {validation_path}")
+
     df = pd.read_csv(data_path)
+    df_validation = pd.read_csv(validation_path)
 
     # 2. Pre-procesar los datos
     X_train, X_test, y_train, y_test, feature_cols = preprocess_data(df)

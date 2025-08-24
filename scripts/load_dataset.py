@@ -5,6 +5,7 @@ import tomli
 from pathlib import Path
 from scripts.export_to_csv import export_csv
 from scripts.export_to_json import export_json
+from sklearn.model_selection import train_test_split
 
 # 2. Leer secrets.toml
 secrets_path = Path(__file__).resolve().parents[1] / '.streamlit' / 'secrets.toml'
@@ -55,4 +56,7 @@ for i in range(6):
     if not chunk.empty:
         export_json(chunk, f"chunk_{i + 1}.json")
 
-export_csv(df)
+train_df, val_df = train_test_split(df, test_size=0.1, random_state=42)
+
+export_csv(train_df, "dataset.csv", False)
+export_csv(val_df, "validation_dataset.csv", True)

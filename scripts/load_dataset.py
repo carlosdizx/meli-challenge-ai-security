@@ -48,10 +48,11 @@ val_df, test_df = train_test_split(temp_df, test_size=0.5, random_state=42)
 
 export_csv(train_df, "dataset.csv", False)         # 80%
 export_csv(val_df, "validation_dataset.csv", True) # 10%
-export_csv(test_df, "test_dataset.csv", False)     # 10%
 
 for i in range(6):
     start_idx = i * 10000
     end_idx = start_idx + 10000
     chunk = test_df.iloc[start_idx:end_idx]
     export_json(chunk, f"chunk_{i + 1}.json")
+
+export_csv(test_df, "test_dataset.csv", False)     # 10

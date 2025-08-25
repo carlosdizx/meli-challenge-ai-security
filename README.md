@@ -351,6 +351,8 @@ Esta es la parte central del proyecto, que manejará la lógica de la aplicació
 uvicorn app.api:app --reload --port 4200
 ```
 
+Si te da error al iniciar la app, cierra la terminal, vuelve a cargar el entorno virtual y vuelve a ejecutar el comando.
+
 ### 2) 🖥️ Ejecutar la aplicación cliente (individual)
 
 Abre una nueva ventana de tu terminal, asegúrate de que el entorno virtual esté activo y ejecuta el cliente de

@@ -373,8 +373,47 @@ langgraph dev
 ```
 
 ---
+# Pruebas: Demostración del funcionamiento de las apps
 
-# Demostración del funcionamiento de las apps
+Una vez tengas corriendo las aplicaciones por cualquiera de las tres opciones anteriores, llega el momento de probar, para ello
+ejecuta las siguientes peticiones en postman o por la consola.
+
+Recuerda que si usaste docker en la segunda opción cambia el dominio
+por `http://fastapi:4200` por ejemplo: `http://fastapi:4200/health`
+
+```bash
+curl --location 'http://localhost:4200/health'
+```
+
+```bash
+curl --location 'http://localhost:4200/analyze' \
+--header 'Content-Type: application/json' \
+--data '[
+  {
+    "ip_address": "1.1.1.1",
+    "country": "CO",
+    "asn": 15169,
+    "user_agent_string": "Mozilla/5.0",
+    "browser_name_and_version": "Chrome 125.0",
+    "os_name_and_version": "Windows 11",
+    "device_type": "desktop",
+    "login_successful": 1
+  },
+  {
+    "ip_address": "8.8.8.8",
+    "country": "US",
+    "asn": 13335,
+    "user_agent_string": "Mozilla/5.0",
+    "browser_name_and_version": "Chrome 125.0",
+    "os_name_and_version": "macOS 14",
+    "device_type": "desktop",
+    "login_successful": 0
+  }
+]
+'
+```
+Por otro lado, puedes acceder desde tu navegador al siguiente dominio http://localhost:8501/
+para probar el dashboard.
 
 
 ### Prueba validación del API
